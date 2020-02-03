@@ -1,0 +1,202 @@
+import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/redux/sitediary/state_eform.dart';
+import 'package:sitediary/redux/eform_record/state_eform_record.dart';
+import 'package:sitediary/ui/edit/confirm_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
+
+import 'package:sitediary/redux/state_app.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:sitediary/redux/data_service.dart';
+import 'package:sitediary/ui/template/list_template.dart';
+
+import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/redux/eform_action.dart';
+import 'package:sitediary/ui/edit/form_record_edit.dart';
+
+
+class FormRecordTabItem extends StatefulWidget {
+
+  final EForm eForm;
+  final int section;
+  final Function setActiveScreen;
+  FormRecordTabItem(this.eForm, this.section,this.setActiveScreen);
+
+  @override
+  _FormRecordTabItemState createState() => _FormRecordTabItemState();
+}
+
+class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKeepAliveClientMixin  {
+  bool isProcessing =false;
+  int pageSize = 10;
+  bool isActiveScreen =true;
+
+  PagewiseLoadController<dynamic> pageLoadController;
+
+  _showMessage( BuildContext context, String text){
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  Widget _createActionButton(BuildContext context){
+    if (widget.section!=widget.eForm.initSection) return Container();
+
+    Store<EFormState> formStore = StoreProvider.of(context);
+    final f =formStore.state.currentEForm;
+    if (f.formUserRight==null)  return Container();
+    if (!f.formUserRight.canCreate) return Container();
+
+    return FloatingActionButton(
+      onPressed: () {
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return ConfirmDialog('Create new');
+          }
+        ).then((b){
+
+          if(!b) return;
+
+          if (isProcessing) return;
+          isProcessing = true;
+
+          final action1 = CreateNewRecordServerAction(f.eFormKey,StoreProvider.of<AppState>(context).state);
+          StoreProvider.of<EFormRecordState>(context).dispatch(action1);
+
+          /*
+          Future.wait([action1.completer.future]).then((List<dynamic> list){
+            list.forEach((i){
+              //_editRecord(context);
+              isProcessing = false;
+            });
+          }).catchError((error){
+            _showMessage(context, '$error');
+            //print('CreateNewRecordAction error: $error');
+          }).whenComplete((){
+          });
+*/
+          _editRecord(context,action1.completer.future);
+
+          isProcessing = false;
+        });
+
+
+      },
+      child: Icon(Icons.add),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    print('FormRecordTabItem build, section: ${widget.section}');
+
+    return  Scaffold(
+      floatingActionButton: _createActionButton(context),
+      body: Stack(children: <Widget>[
+        PageWiseListTemplate( pageLoadController,itemBuilder),
+      ],),
+    );
+  }
+
+  Widget itemBuilder(BuildContext context, dynamic entry, int index) {
+    EFormRecord record = entry;
+    List<Widget> list = List<Widget>();
+    List<Widget> idWidgetList = List();
+    record.itemDetailList.forEach((EFormRecordDetail d){
+      if (d.itemType=='Identity'){
+        idWidgetList.add(Text('${d.getValue??''}'));
+      } else if (d.isShowOnList){
+        list.add(
+            Row( children: <Widget>[ Text('${d.getValue??''}')] )
+        );
+      }
+    });
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: Column(children: idWidgetList,mainAxisAlignment: MainAxisAlignment.center,) ,
+          title: Column(children: list ),
+          subtitle: Row(
+            children: <Widget>[
+              Text('${record.modifyBy} At ${record.modifyDateString}'),
+            ],
+          ) ,
+          trailing: null,
+          //Text( record.recordStatusLabel, style: TextStyle(color: Colors.lightBlue)),
+          onTap: () async {
+
+            if (isProcessing) return;
+            isProcessing = true;
+
+            Store<AppState>  appStore = StoreProvider.of(context);
+            Store<EFormRecordState>  store = StoreProvider.of(context);
+            final action1 = GetFormRecordByRecordIdAction(record.eFormKey, record.eFormRecordID,appStore.state);
+            store.dispatch(action1);
+
+            /*
+            Future.wait([action1.completer.future]).then((List<dynamic> list){
+              list.forEach((i){ });
+            }).catchError((error){
+              _showMessage(context, '$error');
+              //print('CreateNewRecordAction error: $error');
+            }).whenComplete((){
+              //_editRecord(context);
+            });
+            */
+
+
+            _editRecord(context,action1.completer.future);
+
+            isProcessing = false;
+          },
+        ),
+        Divider(),
+      ],
+    );
+  }
+
+  void _editRecord(BuildContext context, Future future){
+    processActiveScreen(false);
+
+    Navigator.push(context,MaterialPageRoute(builder: (c){
+      return FormRecordEditPage(future);
+    })).then((v){
+      processActiveScreen(true);
+
+    });
+  }
+
+  void processActiveScreen(bool isActive){
+    isActiveScreen = isActive;
+    widget.setActiveScreen(isActive);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (pageLoadController==null){
+      pageLoadController = PagewiseLoadController<dynamic>(
+
+        pageSize: pageSize,
+        pageFuture: (pageIndex) {
+          return  BackendService.getEFormRecords(
+              StoreProvider.of<AppState>(context),
+              widget.eForm.eFormKey ,
+              widget.section,
+              pageIndex , pageSize,isActiveScreen);
+
+        },
+      );
+    }
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}
+

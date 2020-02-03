@@ -1,0 +1,22 @@
+import 'dart:async';
+import 'dart:collection';
+import 'cache.dart';
+
+class MemCache<T> extends Cache<T> {
+  final map = HashMap<int, T>();
+
+  @override
+  clearAll(){
+    map.clear();
+  }
+
+  @override
+  Future<T> get(int index) {
+    return Future.value(map[index]);
+  }
+
+  @override
+  put(int index, object) {
+    map[index] = object;
+  }
+}
