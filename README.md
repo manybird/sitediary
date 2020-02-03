@@ -1,6 +1,5 @@
-# eform
-
-PSL eform
+# sitediary
+PSL Site Diary
 
   One-time code generation
   By running [flutter packages pub run build_runner  build] in the project root(cmd), you generate JSON serialization code for your models whenever they are needed. 
