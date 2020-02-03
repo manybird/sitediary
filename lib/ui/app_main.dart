@@ -16,7 +16,6 @@ import 'package:sitediary/redux/middleware_app.dart';
 import 'package:sitediary/redux/reducers_app.dart';
 import 'package:sitediary/redux/eform_record/reducers_eform_record.dart';
 import 'package:sitediary/redux/eform/reducers_eform.dart';
-import 'list/lazy_load_main.dart';
 import 'loading.dart';
 import 'app_home.dart';
 import 'theme.dart';
@@ -91,7 +90,6 @@ class _AppMainState extends State<AppMain> {
                   SettingScreen.routeName: (c)=>SettingScreen(true),
                   FormHistoryList.routeName: (c)=>FormHistoryList(),
                   LoadingApp.routeName: (c)=>LoadingApp(),
-                  LazyLoadMain.routeName: (c)=>LazyLoadMain(),
                   GoogleMapViewerApp.routeName: (c)=>GoogleMapViewerApp(LocationCamera()),
                 },
                 home: AppHome(),
