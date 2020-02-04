@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:sitediary/datas/user.dart';
 import 'package:sitediary/datas/http_handler.dart';
 import 'package:sitediary/redux/eform_action.dart';
-import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/datas/eform/eform.dart';
 
 class MiddleWareEForm{
 

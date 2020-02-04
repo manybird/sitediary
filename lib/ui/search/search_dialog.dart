@@ -1,7 +1,7 @@
 
 
-import 'package:sitediary/datas/eform.dart';
-import 'package:sitediary/datas/eform_item.dart';
+import 'package:sitediary/datas/eform/eform.dart';
+import 'package:sitediary/datas/eform/eform_item.dart';
 import 'package:sitediary/datas/user.dart';
 import 'package:sitediary/redux/actions.dart';
 import 'package:sitediary/redux/eform/state_eform.dart';

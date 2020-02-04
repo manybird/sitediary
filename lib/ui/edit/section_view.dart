@@ -1,4 +1,4 @@
-import 'package:sitediary/datas/eform_item_section.dart';
+import 'package:sitediary/datas/eform/eform_item_section.dart';
 import 'package:sitediary/ui/edit/record_detail_view.dart';
 
 import 'package:flutter/material.dart';

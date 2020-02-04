@@ -1,5 +1,5 @@
 
-import 'package:sitediary/datas/eform_item_section.dart';
+import 'package:sitediary/datas/eform/eform_item_section.dart';
 
 import 'package:sitediary/persistence/location_camera.dart';
 import 'package:sitediary/ui/template/edit_dialog.dart';

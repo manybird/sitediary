@@ -1,5 +1,5 @@
 import 'package:sitediary/data_cache/repository_service.dart';
-import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/datas/eform/eform.dart';
 import 'package:sitediary/redux/eform/state_eform.dart';
 import 'package:sitediary/redux/eform_record/state_eform_record.dart';
 import 'package:sitediary/ui/template/confirm_dialog.dart';
@@ -10,7 +10,7 @@ import 'package:sitediary/redux/state_app.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sitediary/redux/data_service.dart';
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:sitediary/redux/eform_action.dart';
 import 'package:sitediary/ui/edit/form_record_edit.dart';
 

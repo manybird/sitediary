@@ -1,4 +1,4 @@
-import 'package:sitediary/datas/eform_record_user_activity.dart';
+import 'package:sitediary/datas/eform/eform_record_user_activity.dart';
 import 'package:sitediary/redux/eform_record/state_eform_record.dart';
 import 'package:flutter/material.dart';
 

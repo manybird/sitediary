@@ -9,7 +9,7 @@ import 'package:sitediary/redux/state_app.dart';
 import 'package:sitediary/ui/template/file_dialog.dart';
 import 'package:sitediary/ui/template/signature_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:redux/redux.dart';

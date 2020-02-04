@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
-import 'eform.dart';
-import 'eform_item.dart';
+import 'eform/eform.dart';
+import 'eform/eform_item.dart';
 
 part 'user.g.dart';
 

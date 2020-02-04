@@ -9,7 +9,7 @@ import 'package:sitediary/redux/data_service.dart';
 import 'package:sitediary/ui/template/list_template.dart';
 
 import 'form_record_list_main.dart';
-import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/datas/eform/eform.dart';
 import 'package:sitediary/redux/eform_action.dart';
 
 class FormCategoryList extends StatefulWidget {

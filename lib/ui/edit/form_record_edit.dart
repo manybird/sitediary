@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:sitediary/datas/eform_item_section.dart';
+import 'package:sitediary/datas/eform/eform_item_section.dart';
 import 'package:sitediary/redux/eform_action.dart';
 import 'package:sitediary/redux/eform_record/state_eform_record.dart';
 import 'package:sitediary/ui/edit/form_record_edit_actionbar.dart';
@@ -14,7 +14,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:rect_getter/rect_getter.dart';
 
 import 'package:sitediary/ui/edit_item/form_report_item.dart';

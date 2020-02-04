@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:flutter/material.dart';
 import 'package:signature/signature.dart';
 

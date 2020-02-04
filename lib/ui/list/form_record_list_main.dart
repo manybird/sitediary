@@ -1,4 +1,4 @@
-import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/datas/eform/eform.dart';
 import 'package:sitediary/redux/actions.dart';
 import 'package:sitediary/redux/eform/state_eform.dart';
 import 'package:sitediary/ui/list/repository_service_controller.dart';

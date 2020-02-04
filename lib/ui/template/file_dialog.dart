@@ -3,7 +3,7 @@ import 'package:sitediary/ui/template/self_button.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:sitediary/ui/template/confirm_dialog.dart';

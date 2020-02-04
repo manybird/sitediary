@@ -6,9 +6,9 @@ import 'package:sitediary/ui/edit_item/form_map_item.dart';
 import 'package:sitediary/ui/template/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-import 'package:sitediary/datas/eform_item_section.dart';
+import 'package:sitediary/datas/eform/eform_item_section.dart';
 
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:sitediary/ui/edit_item/form_combo_item.dart';
 import 'package:sitediary/ui/edit_item/form_file_item.dart';
 

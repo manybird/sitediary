@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/datas/eform/eform.dart';
 part 'state_eform.g.dart';
 
 @JsonSerializable()

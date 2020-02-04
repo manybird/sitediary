@@ -1,5 +1,5 @@
 
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 

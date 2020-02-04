@@ -2,8 +2,8 @@ import 'package:sitediary/data_cache/paging_data.dart';
 import 'package:sitediary/datas/http_handler.dart';
 import 'package:sitediary/redux/state_app.dart';
 import 'package:http/http.dart' as http;
-import 'package:sitediary/datas/eform.dart';
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 
 import 'package:sitediary/datas/request_sub_item.dart';
 import 'package:sitediary/redux/eform_action.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:sitediary/datas/eform_record.dart';
+import 'package:sitediary/datas/eform/eform_record.dart';
 import 'package:sitediary/persistence/open_file_class.dart';
 import 'package:sitediary/redux/eform_action.dart';
 import 'package:sitediary/redux/eform_record/state_eform_record.dart';

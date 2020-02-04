@@ -2,7 +2,7 @@
 import 'state_eform.dart';
 import 'package:sitediary/redux/eform_action.dart';
 import 'package:redux/redux.dart';
-import 'package:sitediary/datas/eform.dart';
+import 'package:sitediary/datas/eform/eform.dart';
 
 EFormState eFormReducer(EFormState state, action) {
   return EFormState(
