@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 
 import 'eform/eform.dart';
-import 'eform/eform_item.dart';
+
 
 part 'user.g.dart';
 
@@ -12,6 +12,11 @@ class User {
   User();
 
   UserSearchOption userSearchOption;
+
+  @override
+  int get hashCode => loginName.hashCode;
+  @override
+  bool operator==(Object other) => other is User && other.loginName == loginName;
 
   @override
   String toString() {
@@ -58,7 +63,9 @@ class User {
   }
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
-
+  String get tText{
+    return this.loginName??'';
+  }
 }
 
 @JsonSerializable()
@@ -69,9 +76,9 @@ class UserSearchOption {
   String sortingColumn ='';
   String sortingType='desc';
 
-  void setSortingColumn(EFormItem v){
-    sortingColumnItemKey =v.eFormItemKey;
-    if (v.isDate){
+  void setSortingColumn(String eFormItemKey, bool isDate){
+    sortingColumnItemKey =eFormItemKey;
+    if (isDate){
       sortingColumn = 'itemValueDateTime';
     }else {
       sortingColumn = 'itemValue';

@@ -19,16 +19,22 @@ class AppState {
 
   String serverUrlPrefix = 'http://';
   String serverUrlSub = '/sitediary/api.ashx';
+  String serverUrlSubSD = '/sitediary/apisd.ashx';
   String serverIP = '192.168.10.98';
 
   String get serverUrlBase {
+    if (serverIP.startsWith('http')) return serverIP + serverUrlSub;
     return serverUrlPrefix + serverIP + serverUrlSub;
   }
 
+  String get serverUrlSD {
+    if (serverIP.startsWith('http')) return serverIP + serverUrlSubSD;
+    return serverUrlPrefix + serverIP + serverUrlSubSD;
+  }
+
   AppState(
-       this.serverIP
-      ,this.isNeedLoadSettingFile,this.isProcessingHttp
-      , this.user
+       this.serverIP ,this.isNeedLoadSettingFile
+      ,this.isProcessingHttp , this.user
       );
 
   factory AppState.initial(){

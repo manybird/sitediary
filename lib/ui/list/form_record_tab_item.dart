@@ -42,10 +42,7 @@ class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKee
 
   Future getDataFunction(int pageIndex, int pageSize) async{
 
-    if (context==null){
-      //print('getDataFunction, context==null');
-      return BackendService.getEFormRecordContainerEmpty();
-    }
+    if (context==null) return BackendService.getEFormRecordContainerEmpty();
 
     return BackendService.getEFormRecordContainer(
         StoreProvider.of<AppState>(context),
@@ -273,7 +270,7 @@ class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKee
   @override
   void initState() {
     super.initState();
-    //repositoryService = RepositoryService(getDataFunction, 10);
+
     repositoryService = widget.repositoryServiceController.createRepositoryService(
       getDataFunction, widget.section,
     );

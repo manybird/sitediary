@@ -78,8 +78,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.google.firebase:firebase-core:16.0.9' //Add with fireBase
-
 
 }
 
@@ -90,6 +88,13 @@ dependencies {
 }
 
 
-
 //Add with fireBase
 apply plugin: 'com.google.gms.google-services'
+dependencies {
+    // for firebase 17.2.2, pubspec.yaml: firebase_messaging: ^6.0.9
+    implementation 'com.google.firebase:firebase-core:17.2.2' //Add with fireBase 16.0.9
+    // add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    // add SDKs for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+}

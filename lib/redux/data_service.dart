@@ -43,16 +43,7 @@ class BackendService {
     return List<EFormRecord>();
   }
 
-  static Future<List<EFormRecord>> getEFormRecordsUseless(
-      Store<AppState>  store, String eFormKey,
-      int section, int pageIndex, int pageSize,
-      bool isActiveScreen) async {
 
-    if (!isActiveScreen) return getEFormRecordEmpty();
-    final c = await getEFormRecordContainer(store, eFormKey, section, pageIndex, pageSize, isActiveScreen);
-    return c.items;
-
-  }
 
   static Future<PagingItemCollection<EFormRecord>> getEFormRecordContainerEmpty() async{
     return  PagingItemCollection<EFormRecord>(

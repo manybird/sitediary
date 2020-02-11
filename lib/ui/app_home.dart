@@ -59,7 +59,7 @@ class _AppHomeState extends State<AppHome> with AutomaticKeepAliveClientMixin {
         //isDoingLogin = true;
 
         Navigator.push(context,MaterialPageRoute(builder: (c){
-          return LoginScreen(loginSuccessCallback);
+          return LoginScreen(loginSuccessCallback,isLogout);
         }));
 
       });
@@ -74,14 +74,14 @@ class _AppHomeState extends State<AppHome> with AutomaticKeepAliveClientMixin {
       actions: <Widget>[
          FlatButton(
           onPressed: () => Navigator.of(c).pop(false),
-          child:  Text("NO"),),
-
-          FlatButton(onPressed: () {
-
-            Navigator.of(c).pop(false);
-            _showLoginScreen(c, true);
-          },
-          child:  Text("YES"),
+          child:  Text("NO"),
+         ),
+          FlatButton(
+            onPressed: () {
+              Navigator.of(c).pop(false);
+              _showLoginScreen(c, true);
+            },
+            child:  Text("YES"),
           ),
       ],);
     });
@@ -190,7 +190,6 @@ class _AppHomeState extends State<AppHome> with AutomaticKeepAliveClientMixin {
                     _dialogShowLogoutApp(context).then((b){
                       if (b){ }
                     });
-
                   },
                 ),
 
@@ -230,9 +229,7 @@ class _AppHomeState extends State<AppHome> with AutomaticKeepAliveClientMixin {
       _currentIndex = index;
     });
   }
-  var _pageController = PageController(
-    initialPage: 0,
-  );
+  var _pageController = PageController( initialPage: 0, );
   Widget _buildBody(BuildContext context) {
     Store<AppState>  store = StoreProvider.of<AppState>(context);
 

@@ -21,8 +21,9 @@ class LoginScreen extends StatefulWidget {
   static String routeName = '/login';
 
   final Function loginSuccessCallBack;
+  final bool isLogout;
 
-  LoginScreen(this.loginSuccessCallBack);
+  LoginScreen(this.loginSuccessCallBack,this.isLogout);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -119,6 +120,18 @@ class _LoginScreenState extends State<LoginScreen> {
     _fireBaseMessaging.getToken().then((token){
       fcmToken = token;
       print('firebase token: $token !');
+
+      if (widget.isLogout && messageContext!=null){
+        final u = StoreProvider.of<AppState>(messageContext).state.user;
+        if (u.hasLoginName){
+          _fireBaseMessaging.unsubscribeFromTopic(u.fcmTopicName).then((v){
+            print(" _fireBaseMessaging.unsubscribeFromTopic: ${u.fcmTopicName}, completed");
+          }).catchError((err){
+            print(" _fireBaseMessaging.unsubscribeFromTopic: ${u.fcmTopicName}, error: $err");
+          });
+        }
+      }
+
     });
 
 
@@ -172,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //print('login - onWillChange: viewModel: $viewModel');
         },
         builder: (BuildContext ctx, _ViewModel viewModel) {
-          print('login  - builder: viewModel: $viewModel');
+          //print('login  - builder: viewModel: $viewModel');
           messageContext = ctx;
           return viewModel.showView(ctx);
 
@@ -221,7 +234,7 @@ class _ViewModel{
     this.widget = Builder(builder: (BuildContext ctx) {
       return Column(mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('e-Form', style: Theme
+          Text('Site Diary', style: Theme
               .of(ctx)
               .textTheme
               .display1),

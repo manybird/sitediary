@@ -251,7 +251,6 @@ class _FormRecordEditPageState extends State<FormRecordEditPage> with TickerProv
         if (_isProcessing) return false;
         Future.delayed(Duration(milliseconds: 100)).then((v){
           try{
-
             Navigator.pop(context,_isSaved);
           }catch  (ex){
             //Unsafe exception

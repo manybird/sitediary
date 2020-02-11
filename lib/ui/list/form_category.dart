@@ -6,14 +6,17 @@ import 'package:sitediary/redux/state_app.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sitediary/redux/data_service.dart';
+import 'package:sitediary/router.dart';
 import 'package:sitediary/ui/template/list_template.dart';
 
 import 'form_record_list_main.dart';
 import 'package:sitediary/datas/eform/eform.dart';
 import 'package:sitediary/redux/eform_action.dart';
 
-class FormCategoryList extends StatefulWidget {
-  static String routeName = '/form_category_page';
+
+class FormCategoryList extends StatefulWidget  {
+  static Router router = Router('/form_category_page','Form Category');
+
   @override
   _FormCategoryListState createState() => _FormCategoryListState();
 }

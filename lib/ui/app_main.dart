@@ -5,6 +5,11 @@ import 'package:sitediary/redux/eform/state_eform.dart';
 import 'package:sitediary/redux/eform_record/middleware_eform_record.dart';
 import 'package:sitediary/redux/eform_record/state_eform_record.dart';
 import 'package:flutter/material.dart';
+import 'package:sitediary/redux/site_diary/middlware_site_diary.dart';
+import 'package:sitediary/redux/site_diary/reducers_site_diary.dart';
+import 'package:sitediary/redux/site_diary/state_site_diary.dart';
+import 'package:sitediary/ui/sitediary/location/location_page.dart';
+import 'package:sitediary/ui/sitediary/site_diary_main.dart';
 import 'dart:async';
 
 import 'google_map.dart';
@@ -34,12 +39,20 @@ class AppMain extends StatefulWidget {
 class _AppMainState extends State<AppMain> {
 
   Store<AppState> appStore;
-
   Store<EFormRecordState> eFormRecordStore;
   Store<EFormState> eFormStore;
+  Store<SiteDiaryState> siteDiaryStore;
 
   Future<Store<AppState>> createStoreApp() async {
    await Future.delayed(Duration(seconds: 1));
+
+   if (siteDiaryStore == null) {
+     siteDiaryStore = Store<SiteDiaryState>(
+       siteDiaryReducer,
+       initialState: SiteDiaryState.initial(),
+       middleware: MiddleWareSiteDiary().create(),
+     );
+   }
 
    if (eFormStore == null) {
      eFormStore = Store<EFormState>(
@@ -77,23 +90,28 @@ class _AppMainState extends State<AppMain> {
           return LoadingApp();
         }
         return StoreProvider(
-          store: eFormStore,
+          store: siteDiaryStore,
           child: StoreProvider(
-            store: eFormRecordStore,
+            store: eFormStore,
             child: StoreProvider(
-              store: ss.data,
-              child: MaterialApp(
-                routes: {
-                  AppMain.routeName: (c) => AppMain(),
+              store: eFormRecordStore,
+              child: StoreProvider(
+                store: ss.data,
+                child: MaterialApp(
+                  routes: {
+                    AppMain.routeName: (c) => AppMain(),
 
-                  FormCategoryList.routeName: (c)=>FormCategoryList(),
-                  SettingScreen.routeName: (c)=>SettingScreen(true),
-                  FormHistoryList.routeName: (c)=>FormHistoryList(),
-                  LoadingApp.routeName: (c)=>LoadingApp(),
-                  GoogleMapViewerApp.routeName: (c)=>GoogleMapViewerApp(LocationCamera()),
-                },
-                home: AppHome(),
-                theme: UserTheme.osBaseTheme(),
+                    FormCategoryList.router.routeName: (c)=>FormCategoryList(),
+                    SettingScreen.routeName: (c)=>SettingScreen(true),
+                    FormHistoryList.routeName: (c)=>FormHistoryList(),
+                    LoadingApp.routeName: (c)=>LoadingApp(),
+                    GoogleMapViewerApp.routeName: (c)=>GoogleMapViewerApp(LocationCamera()),
+                    SiteDiaryMain.router.routeName:(c)=>SiteDiaryMain(),
+                    SiteDiaryLocationPage.router.routeName:(c)=>SiteDiaryLocationPage(),
+                  },
+                  home: AppHome(),
+                  theme: UserTheme.osBaseTheme(),
+                ),
               ),
             ),
           ),

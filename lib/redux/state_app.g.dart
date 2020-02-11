@@ -15,7 +15,8 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>))
     ..serverUrlPrefix = json['serverUrlPrefix'] as String
-    ..serverUrlSub = json['serverUrlSub'] as String;
+    ..serverUrlSub = json['serverUrlSub'] as String
+    ..serverUrlSubSD = json['serverUrlSubSD'] as String;
 }
 
 Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
@@ -24,5 +25,6 @@ Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
       'isProcessingHttp': instance.isProcessingHttp,
       'serverUrlPrefix': instance.serverUrlPrefix,
       'serverUrlSub': instance.serverUrlSub,
+      'serverUrlSubSD': instance.serverUrlSubSD,
       'serverIP': instance.serverIP
     };

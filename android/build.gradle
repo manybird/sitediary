@@ -7,7 +7,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.google.gms:google-services:4.3.0' //Add with fireBase
+        classpath 'com.google.gms:google-services:4.3.3' //Add with fireBase
     }
 
     //20190806 Fix error for :

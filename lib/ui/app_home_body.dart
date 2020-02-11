@@ -1,10 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:package_info/package_info.dart';
+import 'package:sitediary/redux/site_diary/state_site_diary.dart';
+import 'package:sitediary/router.dart';
+import 'package:sitediary/ui/sitediary/site_diary_main.dart';
 import 'google_map.dart';
 import 'list/form_category.dart';
 import 'loading.dart';
 import 'package:sitediary/datas/user.dart';
+
 class AppHomeBody extends StatefulWidget {
 
   final Function showLoginFunction;
@@ -56,13 +61,49 @@ class _AppHomeBodyState extends State<AppHomeBody> with AutomaticKeepAliveClient
     },);
   }
 
+  List<Widget> createButtonList(){
+
+    List<Router> actionList = [];
+    actionList.add(FormCategoryList.router);
+    actionList.add(SiteDiaryMain.router);
+
+    List<Widget> list = [];
+
+    actionList.forEach((Router t){
+      list.add(
+        RaisedButton(
+          child: Text(t.buttonText), onPressed: () {
+
+          final store = StoreProvider.of<SiteDiaryState>(context);
+          final state = store.state;
+          final worker = state.currentSiteDiaryWorker;
+          setState(() {
+            worker.lastReloadDataDate = null;
+          });
+
+          if ((widget.user.loginName ?? '') == '')
+            widget.showLoginFunction(context, true);
+          else
+            Navigator.pushNamed(context, t.routeName);
+        },
+        )
+      );
+    });
+
+    bool showMap = false;
+    list.add(Container(height: 30,));
+    list.add(showMap?_showMap():Container());
+
+    return list;
+  }
+
   Widget _buildBody1(BuildContext context) {
 
     if (widget.user.isNeedShowLoginScreen) {
       widget.showLoginFunction(context, false);
       return LoadingApp();
     }
-    bool showMap = false;
+
     return Column(
       mainAxisAlignment:  MainAxisAlignment.start,
       children: <Widget>[
@@ -76,18 +117,8 @@ class _AppHomeBodyState extends State<AppHomeBody> with AutomaticKeepAliveClient
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(child: Text("Form Category"), onPressed: () {
-                    if ((widget.user.loginName??'')==''){
-                      widget.showLoginFunction(context,true);
-                    }else{
-                      Navigator.pushNamed(context, FormCategoryList.routeName);
-                    }
-                  },),
-                  Container(height: 30,),
-                  showMap?_showMap():Container(),
-
-                ],),
+                children: createButtonList()
+              ),
             ),
           ),
         ),

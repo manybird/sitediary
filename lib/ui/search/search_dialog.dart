@@ -181,7 +181,7 @@ class __SearchingDialogState extends State<SearchingDialog> with AutomaticKeepAl
             items: dropdownMenuItems,
             onChanged: (EFormItem v){
               setState(() {
-                searchOption.setSortingColumn(v);
+                searchOption.setSortingColumn(v.eFormItemKey,v.isDate);
               });
             },
             value: initItem,

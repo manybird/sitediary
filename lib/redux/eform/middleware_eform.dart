@@ -21,7 +21,7 @@ class MiddleWareEForm{
   Future _getListOnServer(Store<EFormState> store, GetEFormListServerActon action, NextDispatcher next) async {
     ResponseItem ri;
     try {
-
+      print('_getListOnServer $action');
       User u = action.appState.user;
       RequestHandler rh = RequestHandler.fromListItemRequest(u, action.requestTypeInt, action.offset, action.offsetCount);
 

@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:178394532522:android:fdcab5b80d9b12f8",
         "android_client_info": {
-          "package_name": "net.powersl.sitediary"
+          "package_name": "com.psl.eform"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "178394532522-bkmmian84c2nkvfkk6ihips1r2pdvprm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "net.powersl.sitediary",
+            "package_name": "com.psl.eform",
             "certificate_hash": "ada2f14200f6402679d5d122c1ca519d9f21b02f"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "178394532522-pd7n2sag880p28015u7rhm41j392otaj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "net.powersl.sitediary",
+            "package_name": "com.psl.eform",
             "certificate_hash": "888fe320803ac92bf102234db954ae9300d99075"
           }
         },
@@ -37,7 +37,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDAGjVY5xeuCdov6Aa8LnA8AqcObEX1Ceg"
+          "current_key": "AIzaSyBelgmjsNb5XYt49fSBVS97O-yyTjyU22E"
         }
       ],
       "services": {
@@ -48,10 +48,10 @@
               "client_type": 3
             },
             {
-              "client_id": "178394532522-6k2mep5j2r70594gn7qe59f87ba8u0ht.apps.googleusercontent.com",
+              "client_id": "178394532522-6q55lktl470jmha0qddcev7gubratblv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "net.powersl.sitediary"
+                "bundle_id": "net.powersl.eform.ios"
               }
             }
           ]
@@ -62,7 +62,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:178394532522:android:9e62caeb5f2ab081",
         "android_client_info": {
-          "package_name": "net.powersl.sitediary"
+          "package_name": "net.powersl.eform"
         }
       },
       "oauth_client": [
@@ -70,7 +70,7 @@
           "client_id": "178394532522-i4lpp3v0vrtcdm48f89irgivjmu44kvq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "net.powersl.sitediary",
+            "package_name": "net.powersl.eform",
             "certificate_hash": "ada2f14200f6402679d5d122c1ca519d9f21b02f"
           }
         },
@@ -78,7 +78,7 @@
           "client_id": "178394532522-abo8datmdnk6mi3p7mjuhvpeqh3mdgb4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "net.powersl.sitediary",
+            "package_name": "net.powersl.eform",
             "certificate_hash": "888fe320803ac92bf102234db954ae9300d99075"
           }
         },
@@ -89,7 +89,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDAGjVY5xeuCdov6Aa8LnA8AqcObEX1Ceg"
+          "current_key": "AIzaSyBelgmjsNb5XYt49fSBVS97O-yyTjyU22E"
         }
       ],
       "services": {
@@ -100,10 +100,46 @@
               "client_type": 3
             },
             {
-              "client_id": "178394532522-6k2mep5j2r70594gn7qe59f87ba8u0ht.apps.googleusercontent.com",
+              "client_id": "178394532522-6q55lktl470jmha0qddcev7gubratblv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "net.powersl.sitediary"
+                "bundle_id": "net.powersl.eform.ios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178394532522:android:015442f27dc80ea80aded3",
+        "android_client_info": {
+          "package_name": "net.powersl.sitediary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178394532522-du611od192bp1j91ca0ktdfo52kiinkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBelgmjsNb5XYt49fSBVS97O-yyTjyU22E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178394532522-du611od192bp1j91ca0ktdfo52kiinkd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "178394532522-6q55lktl470jmha0qddcev7gubratblv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.powersl.eform.ios"
               }
             }
           ]
