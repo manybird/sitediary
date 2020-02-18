@@ -72,20 +72,17 @@ class _AppHomeBodyState extends State<AppHomeBody> with AutomaticKeepAliveClient
     actionList.forEach((Router t){
       list.add(
         RaisedButton(
-          child: Text(t.buttonText), onPressed: () {
+          child: Text(t.buttonText)
+          , onPressed: () {
+            final store = StoreProvider.of<SiteDiaryState>(context);
+            final state = store.state;
+            setState(() => state.currentSiteDiaryWorker.lastReloadBaseDataDate = null);
 
-          final store = StoreProvider.of<SiteDiaryState>(context);
-          final state = store.state;
-          final worker = state.currentSiteDiaryWorker;
-          setState(() {
-            worker.lastReloadDataDate = null;
-          });
-
-          if ((widget.user.loginName ?? '') == '')
-            widget.showLoginFunction(context, true);
-          else
-            Navigator.pushNamed(context, t.routeName);
-        },
+            if ((widget.user.loginName ?? '') == '')
+              widget.showLoginFunction(context, true);
+            else
+              Navigator.pushNamed(context, t.routeName);
+          },
         )
       );
     });

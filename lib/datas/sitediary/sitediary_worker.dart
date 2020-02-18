@@ -10,18 +10,6 @@ part 'sitediary_worker.g.dart';
 @JsonSerializable()
 class SiteDiaryWorker {
 
-  //P0
-  List<ContractCode> contractCodeList=[];
-  List<SDTeam> teamList=[];
-  List<User> staffList =[];
-
-  //P1
-  ContractCode selectedContract;
-  User selectedUser;
-  SDTeam selectedTeam;
-  String ContractNo;
-  DateTime RecordDate;
-
   String getDateInString(DateTime d){
     if (d==null) return '';
     return DateFormat('yyyy-MM-dd').format(d);
@@ -30,17 +18,48 @@ class SiteDiaryWorker {
     if (d==null) return '';
     return DateFormat('yyyy-MM-dd kk:mm').format(d);
   }
+
+  //P0
+  List<ContractCode> contractCodeList=[];
+  List<SDTeam> teamList=[];
+  List<User> staffList =[];
+
+  //P1
+  DateTime RecordDate;
+  ContractCode selectedContract;
+  User selectedUser;
+  SDTeam selectedTeam;
+
+  bool isFreeze;
+  bool isAbleToFreeze;
   String get getRecordDateString{
      return getDateInString(this.RecordDate);
   }
 
-  String team;
+  List<SDLocationRecord> locationRecordList;
 
   List<SDAreaList> areaList;
-  List<SDLocList> locationList;
+  List<SDLocList> locList;
+  List<SDLocList> locListByArea(String area){
+    if (locList ==null) return null;
+    return locList.where((SDLocList loc){
+      return loc.Area == area;
+    }).toList(growable: false);
+  }
+
+  List<SDWOList> woList;
+  List<SDWOList> woListByArea(String area){
+    if (woList ==null) return null;
+    return woList.where((SDWOList loc){
+      return loc.WOArea == area;
+    }).toList(growable: false);
+  }
+
   List<SDStreetList> streetList;
   List<SDLocReserve1List> reserve1List;
   List<SDLocReserve2List> reserve2List;
+
+  List<SDSubContractorList> subContractorList;
 
   //P2
   List<SDActivityList> activityList;
@@ -67,19 +86,24 @@ class SiteDiaryWorker {
 
   String debugString() {
     // TODO: implement toString
-    return 'Contract: ${contractCodeList?.length}'
+    return '[SiteDiaryWorker], Contract: ${contractCodeList?.length}'
         +', Team: ${teamList?.length}'
         +', staffList: ${staffList?.length}'
-        +', lastReloadDataDate: ${lastReloadDataDate?.toIso8601String()}'
+        +', lastReloadBaseDataDate: $lastReloadBaseDataDate'
+        +', lastReloadLocationListDate: $lastReloadLocationListDate'
     ;
   }
 
-  DateTime lastReloadDataDate;
-  bool get isNeedReloadData{
-    if (lastReloadDataDate ==null) return true;
-
-    Duration dif = lastReloadDataDate.difference(DateTime.now());
+  bool isNeedReload(DateTime d){
+    if (d ==null) return true;
+    Duration dif = d.difference(DateTime.now());
     return dif.inHours >1;
-
   }
+
+  DateTime lastReloadBaseDataDate;
+  bool get isNeedReloadBaseData=> isNeedReload(this.lastReloadBaseDataDate);
+
+  DateTime lastReloadLocationListDate;
+  bool get isNeedReloadLocationList=> isNeedReload(this.lastReloadLocationListDate);
+
 }

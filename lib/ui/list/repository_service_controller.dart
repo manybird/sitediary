@@ -18,7 +18,7 @@ class RepositoryServiceController{
   }
 
   RepositoryService createRepositoryService (Function getDataFunction, int section ){
-    final repositoryService = RepositoryService(getDataFunction, pageSize, logEnabled: section==41 || section==3);
+    final repositoryService = RepositoryService(getDataFunction, pageSize: pageSize, logEnabled: section==41 || section==3);
     repositoryServiceMap[section] = repositoryService;
     //print('reportRepositoryService lenght: ${repositoryServiceMap.length}');
 

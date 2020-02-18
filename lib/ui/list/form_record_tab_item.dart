@@ -1,3 +1,4 @@
+import 'package:sitediary/data_cache/paging_data.dart';
 import 'package:sitediary/data_cache/repository_service.dart';
 import 'package:sitediary/datas/eform/eform.dart';
 import 'package:sitediary/redux/eform/state_eform.dart';
@@ -40,8 +41,8 @@ class FormRecordTabItem extends StatefulWidget {
 
 class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKeepAliveClientMixin  {
 
-  Future getDataFunction(int pageIndex, int pageSize) async{
-
+  Future<PagingItemCollection> getDataFunction(int pageIndex, int pageSize) async{
+    print('FormRecordTabItem, getDataFunction $pageIndex x $pageSize');
     if (context==null) return BackendService.getEFormRecordContainerEmpty();
 
     return BackendService.getEFormRecordContainer(
@@ -56,10 +57,6 @@ class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKee
   bool isActiveScreen =true;
   RepositoryService repositoryService;
 
-  void onItemReceived( i) {
-    //print(i);
-    if(mounted) setState(() {});
-  }
 
   Widget _createActionButton(BuildContext context){
     if (widget.section!=widget.eForm.initSection) return Container();
@@ -109,7 +106,7 @@ class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKee
 
       repositoryService.lastTime = d.millisecondsSinceEpoch;
       print(
-          '${d.hour}:${d.minute}:${d.second} FormRecordTabItem: Build ${repositoryService.counter} , section: ${widget.section}, ${repositoryService.totalProducts} '
+          '${d.hour}:${d.minute}:${d.second} FormRecordTabItem: counter ${repositoryService.counter} , section: ${widget.section}, ${repositoryService.totalProducts} '
       );
     }
 
@@ -118,7 +115,9 @@ class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKee
     if (needGetItem) {
       needGetItem = false;
       Future.delayed(Duration(milliseconds: waitTime), () {
-        repositoryService.getItem(0).then(onItemReceived);
+        repositoryService.getItem(0).then((i){
+          if(mounted) setState(() {});
+        });//.getItem(0).then(onItemReceived);
         needGetItem = true;
       });
     }
@@ -270,7 +269,6 @@ class _FormRecordTabItemState extends State<FormRecordTabItem> with AutomaticKee
   @override
   void initState() {
     super.initState();
-
     repositoryService = widget.repositoryServiceController.createRepositoryService(
       getDataFunction, widget.section,
     );

@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 import 'package:sitediary/ui/sitediary/site_diary_main_body.dart';
 
 class SiteDiaryMain extends StatefulWidget {
-  static Router router = Router('/site_diary/main_page','Site Diary');
+  static Router router = Router('/sitediary/main_page','Site Diary');
   @override
   _SiteDiaryMainState createState() => _SiteDiaryMainState();
 }
@@ -20,23 +20,23 @@ class _SiteDiaryMainState extends State<SiteDiaryMain> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
 
-
     final  store = StoreProvider.of<SiteDiaryState>(context);
     final w = store.state.currentSiteDiaryWorker;
-    print('SiteDiaryMain, currentSiteDiaryWorker: ${w.debugString()}');
-    if (!w.isNeedReloadData){
+    print('SiteDiaryMain, ${w.debugString()}');
+    if (!w.isNeedReloadBaseData){
       return Scaffold(
         appBar: AppBar(title: Text(SiteDiaryMain.router.buttonText),),
         body:SiteDiaryMainBody(w),
       );
     }
-    Store<AppState> appStore = StoreProvider.of(context);
-    final action1 = GetSiteDiaryWorkerServerActon(appStore.state);
+
+    final appStore = StoreProvider.of<AppState>(context);
+    final action1 = SiteDiaryGetWorkerServerActon(appStore.state);
     store.dispatch(action1);
 
     return FutureBuilder(
       future: action1.completer.future
-        ,builder: (BuildContext context, AsyncSnapshot<void> async)
+      ,builder: (BuildContext context, AsyncSnapshot<void> async)
       {
           if (async.connectionState!=ConnectionState.done){
             return Scaffold(
@@ -61,7 +61,9 @@ class _SiteDiaryMainState extends State<SiteDiaryMain> with AutomaticKeepAliveCl
           final state = store.state;
           final worker = state.currentSiteDiaryWorker;
 
-          if (worker.RecordDate==null) worker.RecordDate = DateTime.now();
+          //if (worker.RecordDate==null) worker.RecordDate = DateTime.now();
+
+
 
           print('${worker.debugString()}');
 

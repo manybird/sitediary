@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:sitediary/redux/site_diary/middlware_site_diary.dart';
 import 'package:sitediary/redux/site_diary/reducers_site_diary.dart';
 import 'package:sitediary/redux/site_diary/state_site_diary.dart';
-import 'package:sitediary/ui/sitediary/location/location_page.dart';
+import 'package:sitediary/ui/sitediary/location/location_record_list.dart';
+import 'package:sitediary/ui/sitediary/location/location_record_main.dart';
 import 'package:sitediary/ui/sitediary/site_diary_main.dart';
 import 'dart:async';
 
@@ -23,6 +24,7 @@ import 'package:sitediary/redux/eform_record/reducers_eform_record.dart';
 import 'package:sitediary/redux/eform/reducers_eform.dart';
 import 'loading.dart';
 import 'app_home.dart';
+import 'sitediary/location/location_main.dart';
 import 'theme.dart';
 import 'setting.dart';
 
@@ -107,7 +109,7 @@ class _AppMainState extends State<AppMain> {
                     LoadingApp.routeName: (c)=>LoadingApp(),
                     GoogleMapViewerApp.routeName: (c)=>GoogleMapViewerApp(LocationCamera()),
                     SiteDiaryMain.router.routeName:(c)=>SiteDiaryMain(),
-                    SiteDiaryLocationPage.router.routeName:(c)=>SiteDiaryLocationPage(),
+                    SiteDiaryLocationMain.router.routeName:(c)=>SiteDiaryLocationMain(),
                   },
                   home: AppHome(),
                   theme: UserTheme.osBaseTheme(),

@@ -10,6 +10,10 @@ class SDRecordBase {
   String OwnerName ;
   DateTime LastUpdateDate ;
   DateTime CreateDate ;
+
+  String title;
+  String subTitle;
+
   SDRecordBase();
   String getDateString(DateTime d){
     return d==null?'': DateFormat('yyyy-MM-dd').format(d);
@@ -42,6 +46,12 @@ class SDLocationRecord extends SDRecordBase {
   factory SDLocationRecord.fromJson(Map<String, dynamic> json) =>
       _$SDLocationRecordFromJson(json);
   Map<String, dynamic> toJson() => _$SDLocationRecordToJson(this);
+
+  factory SDLocationRecord.copy(SDLocationRecord record){
+    if (record ==null) return null;
+    return SDLocationRecord.fromJson(record.toJson());
+  }
+
 }
 @JsonSerializable()
 class SDActivityRecord  extends SDRecordBase{

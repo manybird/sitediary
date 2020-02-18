@@ -58,7 +58,7 @@ class BackendService {
       Store<AppState>  store, String eFormKey,
       int section, int pageIndex,
       int pageSize, bool isActiveScreen
-      ) async {
+    ) async {
 
     int offset = pageSize * pageIndex;
     int offsetCount = pageSize;

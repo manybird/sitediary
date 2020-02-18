@@ -21,4 +21,10 @@ class SiteDiaryState {
   String toString() {
     return this.toString();
   }
+
+
+
+
+
+
 }

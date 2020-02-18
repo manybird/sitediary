@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:sitediary/datas/sitediary/sitediary_list_object.dart';
 import 'package:sitediary/datas/sitediary/sitediary_worker.dart';
-import 'package:sitediary/ui/sitediary/location/location_page.dart';
+import 'package:sitediary/ui/sitediary/location/location_main.dart';
+import 'package:sitediary/ui/sitediary/location/location_record_list.dart';
 import 'package:sitediary/ui/sitediary/recorddate_edit.dart';
 
 import 'combo_item.dart';
@@ -19,15 +20,20 @@ class SiteDiaryMainBody extends StatefulWidget {
 class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKeepAliveClientMixin {
 
   ComboItemFactory getStaffListComboItemFactory(String label){
-    final ComboItemFactory f = ComboItemFactory(dropdownMenuItems: List());
-    f.label = label;
+    final ComboItemFactory f = ComboItemFactory(label, dropdownMenuItems: List());
+
+    f.onComboEditPress = (){
+      print('onComboEditPress');
+    };
+
     final w = widget.worker;
     for(final c in w.staffList) {
       final ddi = DropdownMenuItem(
         value: c,
         child: ComboDropDownItemChild(
-            c.tText,
-            c==w.selectedUser || (f.initItem==null && w.selectedUser==null)
+          f,null,
+          c==w.selectedUser || (f.initItem==null && w.selectedUser==null),
+          itemLabel: c.tText,
         ),
       );
 
@@ -44,7 +50,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
       w.selectedUser= f.initItem.value;
     }
 
-    f.onChange = (Object v){
+    f.onSelectionChanged = (Object v){
       
       print('onChanged: ${w.selectedUser} => $v');
       setState(() {
@@ -61,16 +67,17 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
   }
 
   ComboItemFactory getContractCodeComboItemFactory(String label){
-    final ComboItemFactory f = ComboItemFactory();
-    f.label = label;
+    final ComboItemFactory f = ComboItemFactory(label);
+    f.title = label;
     final w = widget.worker;
     f.dropdownMenuItems = List();
     for(final c in w.contractCodeList) {
       final ddi = DropdownMenuItem(
         value: c,
         child: ComboDropDownItemChild(
-            c.tText,
-            w.selectedContract ==c || (w.selectedContract==null&& f.initItem==null)
+          f, c,
+            w.selectedContract ==c || (w.selectedContract==null&& f.initItem==null),
+
         ),
       );
 
@@ -88,7 +95,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
       w.selectedContract= f.initItem.value;
     }
 
-    f.onChange =(Object v){
+    f.onSelectionChanged =(Object v){
       print('onChanged:  ${w.selectedContract} => $v, ');
       setState(() {
         if (f.canEdit){
@@ -106,8 +113,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
   }
 
   ComboItemFactory getTeamComboItemFactory(String label){
-    final ComboItemFactory f = ComboItemFactory();
-    f.label = label;
+    final ComboItemFactory f = ComboItemFactory(label);
     final w = widget.worker;
     ContractCode selectedContract = w.selectedContract;
     if (selectedContract==null) selectedContract = ContractCode.fromEmpty();
@@ -121,7 +127,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
         final ddi = DropdownMenuItem(
           value: c,
           child: ComboDropDownItemChild(
-              c.tText,
+            f, c,
               c==w.selectedTeam|| (f.initItem==null && w.selectedTeam==null),
           ),
         );
@@ -139,7 +145,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
       w.selectedTeam= f.initItem.value;
     }
 
-    f.onChange =(Object v){
+    f.onSelectionChanged =(Object v){
       print('onChanged:  ${w.selectedTeam} => $v ');
       setState(() {
         if (f.canEdit){
@@ -161,31 +167,31 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-
-    return Container(
-      margin: EdgeInsets.all(18),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ComboItem(getContractCodeComboItemFactory('Contract No:')),
-          RecordDateEditor(widget.worker),
-          (widget.worker.selectedContract?.isInputStaff == true)? ComboItem(getStaffListComboItemFactory('Input By:')):Container(),
-          (widget.worker.selectedContract?.isGroupByTeam == true)? ComboItem(getTeamComboItemFactory('Team:')):Container(),
-          Container(
-            child: Column(
-              children: <Widget>[
-                RaisedButton(
-                  child: Text('Get Data'),
-                  onPressed: (){
-                     Navigator.pushNamed(context, SiteDiaryLocationPage.router.routeName);
-                  },
-                ),
-              ],
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.all(18),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ComboItem(getContractCodeComboItemFactory('Contract No:')),
+            RecordDateEditor(widget.worker),
+            (widget.worker.selectedContract?.isInputStaff == true)? ComboItem(getStaffListComboItemFactory('Input By:')):Container(),
+            (widget.worker.selectedContract?.isGroupByTeam == true)? ComboItem(getTeamComboItemFactory('Team:')):Container(),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Get Data'),
+                    onPressed: (){
+                       Navigator.pushNamed(context, SiteDiaryLocationMain.router.routeName);
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

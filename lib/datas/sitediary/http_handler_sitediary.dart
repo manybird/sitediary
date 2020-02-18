@@ -10,8 +10,8 @@ class RequestHandlerSiteDiary{
   int requestTypeInt;
   int requestType;
 
-  int offset =-1;
-  int offsetCount=-1;
+  int pageIndex =-1;
+  int pageSize=-1;
 
   int totalItem = 0;
 
@@ -41,5 +41,7 @@ class RequestHandlerSiteDiary{
   String toString() {
     return toJsonString();
   }
+
+
 
 }

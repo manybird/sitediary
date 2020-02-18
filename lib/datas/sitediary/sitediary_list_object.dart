@@ -138,15 +138,51 @@ class SDAreaList extends SDListBase {
   factory SDAreaList.fromJson(Map<String, dynamic> json) =>
       _$SDAreaListFromJson(json);
   Map<String, dynamic> toJson() => _$SDAreaListToJson(this);
+
+  int get hashCode => this.toString().hashCode;
+  bool operator==(Object other) => other is SDAreaList && other.toString() == this.toString();
+  String toString() => this.Area;
+  String get tText=> this.toString();
 }
 @JsonSerializable()
 class SDLocList extends SDAreaList {
-  String Loc ; 
+  String LocList ;
   String ListDescription ; 
   SDLocList();
   factory SDLocList.fromJson(Map<String, dynamic> json) =>
       _$SDLocListFromJson(json);
   Map<String, dynamic> toJson() => _$SDLocListToJson(this);
+
+  int get hashCode => this.toString().hashCode;
+  bool operator==(Object other) => other is SDLocList && other.toString() == this.toString();
+  String toString() => this.LocList;
+  String get tText=> this.toString();
+  factory SDLocList.fromEmpty(){
+    return SDLocList()..LocList='' ;
+
+  }
+}
+@JsonSerializable()
+class SDWOList extends SDListBase {
+  String ActualWO ;
+  String WO ;
+  String WOArea ;
+  SDWOList();
+  factory SDWOList.fromEmpty(){
+    return SDWOList()..WOArea=''
+    ..ActualWO=''
+    ..WO='';
+
+  }
+  factory SDWOList.fromJson(Map<String, dynamic> json) =>
+      _$SDWOListFromJson(json);
+  Map<String, dynamic> toJson() => _$SDWOListToJson(this);
+
+  int get hashCode => this.toString().hashCode;
+  bool operator==(Object other) => other is SDWOList && other.toString() == this.toString();
+  String toString() => this.WO;
+  String get tText=> this.ActualWO;
+
 }
 @JsonSerializable()
 class SDStreetList extends SDLocList {
@@ -171,4 +207,21 @@ class SDLocReserve2List extends SDLocReserve1List {
   factory SDLocReserve2List.fromJson(Map<String, dynamic> json) =>
       _$SDLocReserve2ListFromJson(json);
   Map<String, dynamic> toJson() => _$SDLocReserve2ListToJson(this);
+}
+
+@JsonSerializable()
+class SDSubContractorList extends SDListBase{
+  String SubContractor;
+  SDSubContractorList();
+  factory SDSubContractorList.fromJson(Map<String, dynamic> json) =>
+      _$SDSubContractorListFromJson(json);
+  Map<String, dynamic> toJson() => _$SDSubContractorListToJson(this);
+
+  //if (other is String) return other == SubContractor;
+
+  int get hashCode => this.toString().hashCode;
+  bool operator==(Object other) => other is SDSubContractorList && other.toString() == this.toString();
+  String toString() => this.SubContractor;
+  String get tText=> this.toString();
+
 }

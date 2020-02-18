@@ -2,33 +2,58 @@
 
 import 'dart:async';
 
+import 'package:sitediary/data_cache/paging_data.dart';
+import 'package:sitediary/datas/sitediary/sitediary_record_object.dart';
 import 'package:sitediary/datas/sitediary/sitediary_worker.dart';
-import 'package:sitediary/redux/site_diary/state_site_diary.dart';
 import 'package:sitediary/redux/state_app.dart';
 
-abstract class ServerAction{
-  final int offset;
-  final int offsetCount;
+abstract class ServerActionSD{
+  int pageSize;
+  int pageIndex;
   Completer completer = Completer();
+  Completer<PagingItemCollection> completerPagingItem = Completer();
   int requestTypeInt;
   final AppState appState;
 
-  ServerAction(this.appState,{this.offset=0,this.offsetCount=0});
+  ServerActionSD(this.appState,{this.pageSize=0,this.pageIndex=0});
+  setPaging(int pageIndex, int pageSize) {
+    this.pageSize = pageSize;
+    this.pageIndex = pageIndex;
+  }
 }
 
-class GetSiteDiaryWorkerServerActon extends ServerAction {
-
+class SiteDiaryGetWorkerServerActon extends ServerActionSD {
   @override
   int requestTypeInt = 101;
-
-  GetSiteDiaryWorkerServerActon(AppState appState) :
+  SiteDiaryGetWorkerServerActon(AppState appState) :
         super(appState);
-
-
 }
 
-class ChangeCurrentSiteDiaryWorkerAction{
-  final SiteDiaryWorker worker;
+class SiteDiaryGetLocationListServerActon extends ServerActionSD {
+  @override
+  int requestTypeInt = 110;
+  SiteDiaryGetLocationListServerActon(AppState appState) :
+        super(appState);
+}
+
+class SiteDiaryGetActivityListServerActon extends ServerActionSD {
+  @override
+  int requestTypeInt = 120;
+  final SDLocationRecord locationRecord;
+  SiteDiaryGetActivityListServerActon(AppState appState, this.locationRecord) :
+        super(appState);
+}
+
+class LocalAction{
   Completer completer = Completer();
-  ChangeCurrentSiteDiaryWorkerAction(this.worker);
+}
+
+class SiteDiaryChangeWorkerAction extends LocalAction{
+  final SiteDiaryWorker worker;
+  SiteDiaryChangeWorkerAction(this.worker);
+}
+
+class SiteDiarySetCurrentLocationRecord extends LocalAction{
+  final SDLocationRecord locationRecord;
+  SiteDiarySetCurrentLocationRecord(this.locationRecord);
 }

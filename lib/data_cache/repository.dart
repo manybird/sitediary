@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:sitediary/data_cache/paging_data.dart';
+
 
 abstract class Repository {
   int totalProducts;
@@ -16,7 +18,7 @@ abstract class Repository {
 
   void log(Object object) {
     if (logEnabled) {
-      print(object);
+      print('${DateTime.now().toIso8601String().substring(11,23)}: [Repository] $object');
     }
   }
 
@@ -29,7 +31,7 @@ abstract class Repository {
 
   void reportEmpty();
 
-  void onData(dynamic dataItemCollection)  {
+  void onData(PagingItemCollection dataItemCollection)  {
     if (dataItemCollection != null) {
       totalProducts = dataItemCollection.totalProducts;
 
