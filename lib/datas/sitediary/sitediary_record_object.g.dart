@@ -64,7 +64,11 @@ SDLocationRecord _$SDLocationRecordFromJson(Map<String, dynamic> json) {
     ..Reserve2 = json['Reserve2'] as String
     ..Section = json['Section'] as String
     ..SubContractor = json['SubContractor'] as String
-    ..TeamPrefix = json['TeamPrefix'] as String;
+    ..TeamPrefix = json['TeamPrefix'] as String
+    ..Updated = json['Updated'] as bool
+    ..lastReloadActivityListDate = json['lastReloadActivityListDate'] == null
+        ? null
+        : DateTime.parse(json['lastReloadActivityListDate'] as String);
 }
 
 Map<String, dynamic> _$SDLocationRecordToJson(SDLocationRecord instance) =>
@@ -89,7 +93,10 @@ Map<String, dynamic> _$SDLocationRecordToJson(SDLocationRecord instance) =>
       'Reserve2': instance.Reserve2,
       'Section': instance.Section,
       'SubContractor': instance.SubContractor,
-      'TeamPrefix': instance.TeamPrefix
+      'TeamPrefix': instance.TeamPrefix,
+      'Updated': instance.Updated,
+      'lastReloadActivityListDate':
+          instance.lastReloadActivityListDate?.toIso8601String()
     };
 
 SDActivityRecord _$SDActivityRecordFromJson(Map<String, dynamic> json) {

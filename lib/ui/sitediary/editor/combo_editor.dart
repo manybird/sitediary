@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:sitediary/datas/sitediary/sitediary_list_object.dart';
+import 'package:sitediary/ui/sitediary/editor/text_edit_dialog.dart';
+
+import 'editor.dart';
 
 
 class ComboItemFactory{
 
-  DropdownMenuItem<dynamic> initItem;
+  DropdownMenuItem<dynamic> selectedItem;
   List<DropdownMenuItem<dynamic>>  dropdownMenuItems= List();
   Function(dynamic) onSelectionChanged;
   bool canEdit=true;
-  String title;
 
-  Function onComboEditPress;
+  String get selectedValue{
+    return (this.selectedItem?.value)?.toString();
+  }
+  Function(dynamic) onComboEditAdd;
+  ComboItemFactory({ this.selectedItem,this.dropdownMenuItems,this.onSelectionChanged});
 
-  ComboItemFactory(this.title, { this.initItem,this.dropdownMenuItems,this.onSelectionChanged});
-
-  factory ComboItemFactory.init(String title){
-    return ComboItemFactory(title,dropdownMenuItems: []);
+  factory ComboItemFactory.init(){
+    return ComboItemFactory(dropdownMenuItems: []);
   }
 
-  Widget createDropdownButton(context){
-
-
-
+  Widget createDropdownButton(context,title){
     return Container(
-
       margin: EdgeInsets.only(bottom: 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,14 +42,24 @@ class ComboItemFactory{
                     focusColor: Colors.blueAccent[100],
                     items: this.dropdownMenuItems,
                     onChanged: this.onSelectionChanged,
-                    value: this.initItem?.value,
+                    value: this.selectedItem?.value,
                   ),
-
               ),
-              onComboEditPress!=null ? Container(
+              onComboEditAdd!=null ? Container(
                child: IconButton(
                  icon: Icon(Icons.edit),
-                 onPressed: onComboEditPress,
+                 onPressed:(){
+                   showDialog(context: context, builder: (c) {
+                     return TextEditingDialog(defaultText: selectedValue,);
+                   }).then((result) async{
+                     if (result==null) return;
+                     if (result.toString()!=this.selectedValue){
+                       onComboEditAdd(result);
+                       if (this.onSelectionChanged!=null )
+                         this.onSelectionChanged(result);
+                     }
+                   });
+                 },
                ),
              ):Container(),
             ],
@@ -59,20 +69,59 @@ class ComboItemFactory{
     );
 
   }
+
+  List<DropdownMenuItem> buildDropDownMenuItems(List<dynamic> oList, String defaultText,{dynamic dummyItemIfEmpty}){
+    final f = this;
+    for(final c in oList){
+      //log('defaultText: $defaultText ');
+      //print(c??'');
+      //log('buildDropDownMenuItems, $defaultText :' + (c??'' == defaultText || (f.initItem==null && defaultText ==null)).toString());
+
+      bool isSelected = false;
+      if (f.selectedItem==null && defaultText ==null){
+        isSelected = true;
+      }else if (c==null?'':c.toString() == defaultText??''){
+        isSelected = true;
+      }
+
+      final ddi = DropdownMenuItem(
+        value: c,
+        child: ComboDropDownItemChild(
+          f, c, isSelected,
+        ),
+      );
+
+      if (f.selectedItem == null) {
+        f.selectedItem = ddi;
+      }else if (isSelected){
+        f.selectedItem = ddi;
+      }
+      f.dropdownMenuItems.add(ddi);
+    }
+
+    if (f.dropdownMenuItems.length ==0 && dummyItemIfEmpty!=null)
+    {
+      f.selectedItem = DropdownMenuItem(
+        child: ComboDropDownItemChild(f,dummyItemIfEmpty,true),
+      );
+
+      f.dropdownMenuItems.insert(0, f.selectedItem);
+    }
+
+    return f.dropdownMenuItems;
+  }
+
 }
 
-class ComboItem extends StatefulWidget {
+class ComboEditor extends Editor {
+  //final String title;
   final ComboItemFactory comboItemFactory;
-  ComboItem(this.comboItemFactory);
-  @override
-  _ComboItemState createState() => _ComboItemState();
-}
+  ComboEditor(this.comboItemFactory, {title=''})
+      :super(title:title);
 
-class _ComboItemState extends State<ComboItem> {
   @override
   Widget build(BuildContext context) {
-    final f = widget.comboItemFactory;
-    return f.createDropdownButton(context);
+    return comboItemFactory.createDropdownButton(context, title);
   }
 }
 
@@ -94,7 +143,7 @@ class ComboDropDownItemChild extends StatelessWidget {
     itemTextStyle = Theme.of(context).textTheme.subtitle;
     itemWidth = MediaQuery.of(context).size.width -80;
 
-    if  (f.onComboEditPress!=null){
+    if  (f.onComboEditAdd!=null){
       itemWidth = itemWidth -40;
       //print(' listItem:$listItem, isComboEdit: $isComboEdit, itemWidth:$itemWidth');
     }

@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:sitediary/redux/site_diary/middlware_site_diary.dart';
 import 'package:sitediary/redux/site_diary/reducers_site_diary.dart';
 import 'package:sitediary/redux/site_diary/state_site_diary.dart';
-import 'package:sitediary/ui/sitediary/location/location_record_list.dart';
-import 'package:sitediary/ui/sitediary/location/location_record_main.dart';
 import 'package:sitediary/ui/sitediary/site_diary_main.dart';
 import 'dart:async';
 

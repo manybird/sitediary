@@ -40,6 +40,11 @@ SiteDiaryWorker _$SiteDiaryWorkerFromJson(Map<String, dynamic> json) {
             ? null
             : SDLocationRecord.fromJson(e as Map<String, dynamic>))
         ?.toList()
+    ..activityRecordList = (json['activityRecordList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SDActivityRecord.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..areaList = (json['areaList'] as List)
         ?.map((e) =>
             e == null ? null : SDAreaList.fromJson(e as Map<String, dynamic>))
@@ -67,14 +72,10 @@ SiteDiaryWorker _$SiteDiaryWorkerFromJson(Map<String, dynamic> json) {
             : SDLocReserve2List.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..subContractorList = (json['subContractorList'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SDSubContractorList.fromJson(e as Map<String, dynamic>))
+        ?.map((e) =>
+            e == null ? null : SDSubContractorList.fromJson(e as Map<String, dynamic>))
         ?.toList()
-    ..activityList = (json['activityList'] as List)
-        ?.map(
-            (e) => e == null ? null : SDActivityList.fromJson(e as Map<String, dynamic>))
-        ?.toList()
+    ..activityList = (json['activityList'] as List)?.map((e) => e == null ? null : SDActivityList.fromJson(e as Map<String, dynamic>))?.toList()
     ..locationObject = json['locationObject'] == null ? null : SDLocationRecord.fromJson(json['locationObject'] as Map<String, dynamic>)
     ..activityObject = json['activityObject'] == null ? null : SDActivityRecord.fromJson(json['activityObject'] as Map<String, dynamic>)
     ..labourList = (json['labourList'] as List)?.map((e) => e == null ? null : SDLabourList.fromJson(e as Map<String, dynamic>))?.toList()
@@ -99,6 +100,7 @@ Map<String, dynamic> _$SiteDiaryWorkerToJson(SiteDiaryWorker instance) =>
       'isFreeze': instance.isFreeze,
       'isAbleToFreeze': instance.isAbleToFreeze,
       'locationRecordList': instance.locationRecordList,
+      'activityRecordList': instance.activityRecordList,
       'areaList': instance.areaList,
       'locList': instance.locList,
       'woList': instance.woList,

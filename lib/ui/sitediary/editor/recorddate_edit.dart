@@ -12,15 +12,6 @@ class RecordDateEditor extends StatefulWidget {
 
 class _DateEditorState extends State<RecordDateEditor> {
 
-  Widget _getEditView(BuildContext context, bool canEdit) {
-    final textStyle = Theme
-        .of(context)
-        .textTheme
-        .subtitle;
-
-    return Text(
-      '${widget.siteDiaryWorker.getRecordDateString}', style: textStyle,);
-  }
 
   _selectDateAndTime( BuildContext context, DateTime sd, bool dateOnly) async {
 
@@ -63,9 +54,13 @@ class _DateEditorState extends State<RecordDateEditor> {
             },
             child: Container(
               padding: EdgeInsets.only(top: 1, left: 8),
-              margin: EdgeInsets.symmetric(vertical: 16),
+              margin: EdgeInsets.all(12),
               width: MediaQuery.of(context).size.width ,
-              child: _getEditView(context ,true),
+              child: Text(
+                '${widget.siteDiaryWorker.getRecordDateString}', style: Theme
+                    .of(context)
+                    .textTheme
+                    .subtitle,),
               decoration:   BoxDecoration(
                 border: Border(
                     bottom: BorderSide(color: Colors.grey)

@@ -57,3 +57,7 @@ class SiteDiarySetCurrentLocationRecord extends LocalAction{
   final SDLocationRecord locationRecord;
   SiteDiarySetCurrentLocationRecord(this.locationRecord);
 }
+class SiteDiarySetCurrentActivityRecord extends LocalAction{
+  final SDActivityRecord activityRecord;
+  SiteDiarySetCurrentActivityRecord(this.activityRecord);
+}

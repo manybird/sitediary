@@ -1,5 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:sitediary/datas/sitediary/sitediary_record_object.dart';
+
 import 'package:sitediary/datas/sitediary/sitediary_worker.dart';
 import 'package:sitediary/redux/site_diary/state_site_diary.dart';
 
@@ -19,6 +19,11 @@ final Reducer<SiteDiaryWorker> _reducer = combineReducers<SiteDiaryWorker>([
   }),
   TypedReducer<SiteDiaryWorker,SiteDiarySetCurrentLocationRecord>((SiteDiaryWorker worker,SiteDiarySetCurrentLocationRecord action){
     worker.locationObject = action.locationRecord;
+    action.completer.complete();
+    return worker;
+  }),
+  TypedReducer<SiteDiaryWorker,SiteDiarySetCurrentActivityRecord>((SiteDiaryWorker worker,SiteDiarySetCurrentActivityRecord action){
+    worker.activityObject = action.activityRecord;
     action.completer.complete();
     return worker;
   }),

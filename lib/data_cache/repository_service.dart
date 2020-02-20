@@ -16,22 +16,22 @@ class RepositoryService extends Repository {
        super(logEnabled: logEnabled??false) ;
 
   Function(bool) onFlushingCompleted;
-  void raiseFlushingCompleted(){
+  void raiseFlushingCompleted() async{
     this.isFlushing = false;
     if (onFlushingCompleted!=null) onFlushingCompleted(this.isFlushing);
     if (totalProducts==null) totalProducts = 0;
-    log('onFlushingCompleted: ');
+    //log('onFlushingCompleted: ');
   }
 
   Function(bool) onFlushingBegin;
-  void raiseFlushingBegin(){
+  void raiseFlushingBegin() async{
     this.isFlushing = true;
-    if (onFlushingBegin!=null)   onFlushingBegin(this.isFlushing);
-    log('onFlushingBegin: ');
+    if (onFlushingBegin!=null) onFlushingBegin(this.isFlushing);
+    //log('onFlushingBegin: ');
   }
 
   Function(Object) onErrorCatch;
-  void raiseError(err){
+  void raiseError(err) async{
     if (onErrorCatch!=null)   onErrorCatch(err);
     log('onErrorCatch: $err');
   }
@@ -49,6 +49,7 @@ class RepositoryService extends Repository {
     if (pagesCompleted.contains(pageIndex)) {
       return cache.get(index);
     } else {
+      log('getItem not in cache: $index');
       if (!pagesInProgress.contains(pageIndex)) {
         pagesInProgress.add(pageIndex);
         final f = getDataFutureFunction(pageIndex, pageSize);
@@ -88,7 +89,7 @@ class RepositoryService extends Repository {
   }
 
 
-  void onDataReceive(PagingItemCollection<dynamic> p)  {
+  void onDataReceive(PagingItemCollection<dynamic> p) async {
     log('onDataReceive: $p, ${p.items.length}');
     super.onData(p);
   }

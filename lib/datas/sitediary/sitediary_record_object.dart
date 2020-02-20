@@ -24,6 +24,13 @@ class SDRecordBase {
   factory SDRecordBase.fromJson(Map<String, dynamic> json) =>
       _$SDRecordBaseFromJson(json);
   Map<String, dynamic> toJson() => _$SDRecordBaseToJson(this);
+
+  bool isNeedReload(DateTime d){
+    if (d ==null) return true;
+    Duration dif = d.difference(DateTime.now());
+    return dif.inHours >1;
+  }
+
 }
 @JsonSerializable()
 class SDLocationRecord extends SDRecordBase {
@@ -41,16 +48,39 @@ class SDLocationRecord extends SDRecordBase {
   String Section ;
   String SubContractor ;
   String TeamPrefix ;
+  bool Updated;
+
+  void resetReserve1(String v){
+    final r = this;
+    r.Reserve2 = null;
+    r.Reserve1 = v;
+  }
+  void resetStreet1(String v){
+    resetReserve1(null);
+    Street1 = v;
+  }
+  void resetLocation(String v){
+    final r = this;
+    resetStreet1(null);
+    r.Street2 = null;
+    r.Street3 = null;
+    r.Street4 = null;
+    r.Location = v;
+  }
+  void resetArea(String v){
+    resetLocation(null);
+    final r = this;
+    r.WorkOrderNO = null;
+    r.Area = v;
+  }
 
   SDLocationRecord();
   factory SDLocationRecord.fromJson(Map<String, dynamic> json) =>
       _$SDLocationRecordFromJson(json);
   Map<String, dynamic> toJson() => _$SDLocationRecordToJson(this);
 
-  factory SDLocationRecord.copy(SDLocationRecord record){
-    if (record ==null) return null;
-    return SDLocationRecord.fromJson(record.toJson());
-  }
+  DateTime lastReloadActivityListDate;
+  bool get isNeedReloadLocationList=> isNeedReload(this.lastReloadActivityListDate);
 
 }
 @JsonSerializable()
@@ -74,6 +104,7 @@ class SDActivityRecord  extends SDRecordBase{
   factory SDActivityRecord.fromJson(Map<String, dynamic> json) =>
       _$SDActivityRecordFromJson(json);
   Map<String, dynamic> toJson() => _$SDActivityRecordToJson(this);
+
 }
 @JsonSerializable()
 class SDPlantRecord  extends SDRecordBase{
@@ -95,6 +126,7 @@ class SDPlantRecord  extends SDRecordBase{
   factory SDPlantRecord.fromJson(Map<String, dynamic> json) =>
       _$SDPlantRecordFromJson(json);
   Map<String, dynamic> toJson() => _$SDPlantRecordToJson(this);
+
 }
 @JsonSerializable()
 class SDLabourRecord  extends SDRecordBase{

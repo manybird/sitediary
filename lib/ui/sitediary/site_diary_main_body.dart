@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:sitediary/datas/sitediary/sitediary_list_object.dart';
 import 'package:sitediary/datas/sitediary/sitediary_worker.dart';
 import 'package:sitediary/ui/sitediary/location/location_main.dart';
-import 'package:sitediary/ui/sitediary/location/location_record_list.dart';
-import 'package:sitediary/ui/sitediary/recorddate_edit.dart';
+import 'package:sitediary/ui/sitediary/editor/recorddate_edit.dart';
 
-import 'combo_item.dart';
+import 'editor/combo_editor.dart';
 class SiteDiaryMainBody extends StatefulWidget {
 
   final SiteDiaryWorker worker;
@@ -19,56 +18,52 @@ class SiteDiaryMainBody extends StatefulWidget {
 
 class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKeepAliveClientMixin {
 
-  ComboItemFactory getStaffListComboItemFactory(String label){
-    final ComboItemFactory f = ComboItemFactory(label, dropdownMenuItems: List());
-
-    f.onComboEditPress = (){
-      print('onComboEditPress');
-    };
+  ComboItemFactory getStaffListComboItemFactory(){
+    final ComboItemFactory f = ComboItemFactory.init();
 
     final w = widget.worker;
+
     for(final c in w.staffList) {
       final ddi = DropdownMenuItem(
         value: c,
         child: ComboDropDownItemChild(
           f,null,
-          c==w.selectedUser || (f.initItem==null && w.selectedUser==null),
+          c==w.selectedUser || (f.selectedItem==null && w.selectedUser==null),
           itemLabel: c.tText,
         ),
       );
 
-      if (f.initItem == null) {
-        f.initItem = ddi;
+      if (f.selectedItem == null) {
+        f.selectedItem = ddi;
       }else if (w.selectedUser == c){
-        f.initItem = ddi;
+        f.selectedItem = ddi;
       }
 
       f.dropdownMenuItems.add(ddi);
     }
 
-    if (w.selectedUser==null && f.initItem!=null){
-      w.selectedUser= f.initItem.value;
+    if (w.selectedUser==null && f.selectedItem!=null){
+      w.selectedUser= f.selectedItem.value;
     }
 
+
     f.onSelectionChanged = (Object v){
-      
-      print('onChanged: ${w.selectedUser} => $v');
+      //print('onChanged: ${w.selectedUser} => $v');
       setState(() {
         if (w.selectedContract?.isInputStaff ==true){
           w.selectedUser = v;
         }else{
-          w.selectedUser = f.initItem.value;
+          w.selectedUser = f.selectedItem.value;
         }
-
       });
     };
 
     return f;
   }
 
-  ComboItemFactory getContractCodeComboItemFactory(String label){
-    final ComboItemFactory f = ComboItemFactory(label);
-    f.title = label;
+  ComboItemFactory getContractCodeComboItemFactory(){
+    final ComboItemFactory f = ComboItemFactory();
+
     final w = widget.worker;
     f.dropdownMenuItems = List();
     for(final c in w.contractCodeList) {
@@ -76,23 +71,23 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
         value: c,
         child: ComboDropDownItemChild(
           f, c,
-            w.selectedContract ==c || (w.selectedContract==null&& f.initItem==null),
+            w.selectedContract ==c || (w.selectedContract==null&& f.selectedItem==null),
 
         ),
       );
 
-      if (f.initItem == null) {
-        f.initItem = ddi;
+      if (f.selectedItem == null) {
+        f.selectedItem = ddi;
       }else if (w.selectedContract == c){
-        f.initItem = ddi;
+        f.selectedItem = ddi;
       }
 
       f.dropdownMenuItems.add(ddi);
     }
 
-    if (w.selectedContract==null && f.initItem!=null){
+    if (w.selectedContract==null && f.selectedItem!=null){
       //initItem.value = worker.selectedContract;
-      w.selectedContract= f.initItem.value;
+      w.selectedContract= f.selectedItem.value;
     }
 
     f.onSelectionChanged =(Object v){
@@ -103,7 +98,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
           w.selectedTeam= null;
           w.selectedUser = null;
         }else{
-          w.selectedContract = f.initItem.value;
+          w.selectedContract = f.selectedItem.value;
         }
 
       });
@@ -112,8 +107,8 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
     return f;
   }
 
-  ComboItemFactory getTeamComboItemFactory(String label){
-    final ComboItemFactory f = ComboItemFactory(label);
+  ComboItemFactory getTeamComboItemFactory(){
+    final ComboItemFactory f = ComboItemFactory();
     final w = widget.worker;
     ContractCode selectedContract = w.selectedContract;
     if (selectedContract==null) selectedContract = ContractCode.fromEmpty();
@@ -128,21 +123,21 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
           value: c,
           child: ComboDropDownItemChild(
             f, c,
-              c==w.selectedTeam|| (f.initItem==null && w.selectedTeam==null),
+              c==w.selectedTeam|| (f.selectedItem==null && w.selectedTeam==null),
           ),
         );
 
-        if (f.initItem == null) {
-          f.initItem = ddi;
+        if (f.selectedItem == null) {
+          f.selectedItem = ddi;
         }else if (w.selectedTeam == c){
-          f.initItem = ddi;
+          f.selectedItem = ddi;
         }
         f.dropdownMenuItems.add(ddi);
       }
     }
-    if (w.selectedTeam==null && f.initItem!=null){
+    if (w.selectedTeam==null && f.selectedItem!=null){
       //initItem.value = w.selectedContract;
-      w.selectedTeam= f.initItem.value;
+      w.selectedTeam= f.selectedItem.value;
     }
 
     f.onSelectionChanged =(Object v){
@@ -151,7 +146,7 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
         if (f.canEdit){
           w.selectedTeam = v;
         }else{
-          w.selectedTeam = f.initItem.value;
+          w.selectedTeam = f.selectedItem.value;
         }
       });
     };
@@ -174,10 +169,10 @@ class _SiteDiaryMainBodyState extends State<SiteDiaryMainBody> with AutomaticKee
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ComboItem(getContractCodeComboItemFactory('Contract No:')),
+            ComboEditor(getContractCodeComboItemFactory(),title: 'Contract No'),
             RecordDateEditor(widget.worker),
-            (widget.worker.selectedContract?.isInputStaff == true)? ComboItem(getStaffListComboItemFactory('Input By:')):Container(),
-            (widget.worker.selectedContract?.isGroupByTeam == true)? ComboItem(getTeamComboItemFactory('Team:')):Container(),
+            (widget.worker.selectedContract?.isInputStaff == true)? ComboEditor(getStaffListComboItemFactory(), title: 'Input By:',):Container(),
+            (widget.worker.selectedContract?.isGroupByTeam == true)? ComboEditor(getTeamComboItemFactory(),title: 'Team:',):Container(),
             Container(
               child: Column(
                 children: <Widget>[

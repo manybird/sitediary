@@ -4,7 +4,7 @@ import 'package:sitediary/redux/site_diary/action_site_diary.dart';
 import 'package:sitediary/redux/site_diary/state_site_diary.dart';
 import 'package:sitediary/redux/state_app.dart';
 import 'package:sitediary/router.dart';
-import 'package:redux/redux.dart';
+
 
 import 'package:sitediary/ui/sitediary/site_diary_main_body.dart';
 
