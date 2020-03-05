@@ -42,6 +42,7 @@ class TextEditor extends Editor {
                 onTap: (){
                   showDialog(context: context, builder: (c) {
                     return TextEditingDialog(
+                      title: title,
                       defaultText: this.text,maxLine: maxLine,
                     );
                   }).then((result) async{

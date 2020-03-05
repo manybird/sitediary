@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:sitediary/datas/sitediary/sitediary_record_object.dart';
 import 'package:sitediary/router.dart';
+import 'package:sitediary/ui/sitediary/location/activity/photo/photo_thumbnail.dart';
 import 'package:sitediary/ui/sitediary/location/activity/plant/plant_record_list.dart';
 import 'package:sitediary/ui/sitediary/tab_bar.dart';
 
@@ -22,8 +23,6 @@ class _SiteDiaryActivityTabControllerState extends State<SiteDiaryActivityTabCon
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text(SiteDiaryActivityTabController.router.buttonText),
@@ -35,7 +34,7 @@ class _SiteDiaryActivityTabControllerState extends State<SiteDiaryActivityTabCon
         ],
       ),
       body: DefaultTabController(
-        length: 2,
+        length: 4,
         initialIndex: widget.initTabIndex,
         child: Scaffold(
           appBar: TabBar(
@@ -44,6 +43,7 @@ class _SiteDiaryActivityTabControllerState extends State<SiteDiaryActivityTabCon
               SiteDiaryTabBar('Edit'),
               SiteDiaryTabBar('Labour'),
               SiteDiaryTabBar('Plant'),
+              SiteDiaryTabBar('Photo'),
             ],
             onTap: (i){ },
           ),
@@ -52,6 +52,8 @@ class _SiteDiaryActivityTabControllerState extends State<SiteDiaryActivityTabCon
               SiteDiaryActivityEdit(widget.record),
               SiteDiaryLabourRecordList(widget.record),
               SiteDiaryPlantRecordList(widget.record),
+              SitePhotoThumbnail(),
+
             ],
           ),
         ),

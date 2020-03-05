@@ -9,7 +9,8 @@ class ListButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        margin: EdgeInsets.all(4),
+        padding: EdgeInsets.all( 4),
+        margin: EdgeInsets.symmetric(vertical: 4),
           color: Colors.grey[200], child: Text(this.text),
       ),
       onTap: () {

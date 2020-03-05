@@ -19,4 +19,10 @@ class MemCache<T> extends Cache<T> {
   put(int index, object) {
     map[index] = object;
   }
+
+  @override
+  int total(){
+    return map.length;
+  }
+
 }

@@ -45,13 +45,15 @@ class SiteDiaryWorker {
   void areaListAdd(String area, String team){
     if (areaList ==null) return ;
     for (final w in areaList){
-      if (w.Area ==area && w.Area==area){
+      if ((w.Area??'')==(area??'') && (w.Team??'')==(team??'') ){
         return;
       }
     }
-    final nWo = SDAreaList()
+    final obj = SDAreaList()
       ..Area=area..Team = team;
-    locList.add(nWo);
+
+    if ((area??'')=='') areaList.insert(0,obj);
+    else areaList.add(obj);
   }
   List<SDLocList> locList;
   void locListAdd(String area, String v){
@@ -83,7 +85,9 @@ class SiteDiaryWorker {
     }
     final obj = SDWOList.fromEmpty()
       ..WOArea=area..WO = v..ActualWO=v;
-    woList.add(obj);
+
+    if ((v??'')=='') woList.insert(0,obj);
+    else woList.add(obj);
   }
   List<SDWOList> woListByArea(String area){
     if (woList ==null) return null;
@@ -130,7 +134,6 @@ class SiteDiaryWorker {
 
     if (reserve1==null ||reserve1=='') reserve1List.insert(0, obj);
     else reserve1List.add(    obj );
-    print('reserve1ListAdd, reserve1: $reserve1');
 
   }
   List<SDLocReserve1List> reserve1ListBy(String area, String loc, String street1){
@@ -168,12 +171,92 @@ class SiteDiaryWorker {
         return;
       }
     }
-    final nWo = SDSubContractorList()
+    final obj = SDSubContractorList()
       ..SubContractor=v;
-    subContractorList.add(nWo);
+
+    if ((v??'')=='') subContractorList.insert(0,obj);
+    else subContractorList.add(obj);
   }
   //P2
   List<SDActivityList> activityList;
+  void activityListAdd(String activity, String typeOfWork, bool isInit){
+    if (activityList ==null) return ;
+    activity = activity??'';
+    typeOfWork = typeOfWork??'';
+
+    bool alreadyInList = activityList.any((w){
+      String a = w.ListName??'';
+      //a = a.trim();
+      if (isInit){
+        if ((a) ==(activity) && (w.TypeOfWork??'') ==(typeOfWork)){
+          return true;
+        }
+      }else{
+        if ((a) ==(activity)){
+          return  true;
+        }
+      }
+      return false;
+    });
+
+    if (alreadyInList) return;
+
+    /*
+    for (final w in activityList){
+      String a = w.ListName??'';
+      //a = a.trim();
+      if (isInit){
+        if ((a) ==(activity) && (w.TypeOfWork??'') ==(typeOfWork)){
+          return;
+        }
+      }else{
+        if ((a) ==(activity)){
+          return;
+        }
+      }
+    }
+     */
+
+    final obj = SDActivityList()
+      ..ListName=activity..TypeOfWork=isInit?typeOfWork:typeOfWork;
+
+    if ((activity??'')=='') activityList.insert(0,obj);
+    else activityList.add(obj);
+  }
+  List<SDActivityList> getActivityListByCode(String code){
+    if (activityList ==null) return null;
+    return activityList.where((SDActivityList obj){
+      return obj.code == code;
+    }).toList(growable: false);
+  }
+
+  List<SDTypeOfWorkList> get typeOfWorkList{
+    if (activityList==null) return null;
+    List<SDTypeOfWorkList> list = [];
+    activityList.forEach((a){
+      String t = a.TypeOfWork??'';
+      final tw = SDTypeOfWorkList(ListName: t);
+      if ( list.contains(tw)){
+        return;
+      }
+      list.add(tw);
+    });
+    return list;
+  }
+
+  List<SDActivityList> getActivityListByTypeOfWork(String typeOfWork, String initValue){
+    if (activityList ==null) return null;
+
+    //if (initValue!=null) this.activityListAdd(initValue, '*');
+
+    final list = activityList.where((SDActivityList obj){
+      return obj.TypeOfWork == typeOfWork || obj.TypeOfWork=='*';
+    }).toList(growable: true);
+
+
+    return list;
+  }
+
   SDLocationRecord locationObject;
 
   //P3
@@ -213,7 +296,6 @@ class SiteDiaryWorker {
   }
 
   String debugString() {
-    // TODO: implement toString
     return '[SiteDiaryWorker], Contract: ${contractCodeList?.length}'
         +', Team: ${teamList?.length}'
         +', staffList: ${staffList?.length}'

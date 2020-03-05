@@ -12,7 +12,6 @@ mixin RecordListMixin <T extends StatefulWidget> on State<T>{
   Future<PagingItemCollection> getDataFunction(int pageIndex, int pageSize);
 
   void show(String text){
-
     Messenger.show(ctx, text??'');
   }
 
@@ -32,13 +31,16 @@ mixin RecordListMixin <T extends StatefulWidget> on State<T>{
 
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: (){
+        onRefresh: () async{
           resetList();
+          if (ctx!=null) preBuildProcess(ctx);
           return Future.value();
         },
         child:   repositoryService.totalProducts==null?_loading():Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
+          margin: EdgeInsets.symmetric(vertical: 5),
           child: ListView.builder(
+            //addAutomaticKeepAlives: true,
+            padding: EdgeInsets.all(0),
             itemCount: (repositoryService.totalProducts??0) ,
             itemBuilder: (context, i) {
               return _rowBuilder(repositoryService.getItem(i),i);
@@ -58,11 +60,20 @@ mixin RecordListMixin <T extends StatefulWidget> on State<T>{
       return FutureBuilder<dynamic>(
         future: productFuture,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
           if (snapshot.hasData) {
             return itemBuilder(context, snapshot.data, index);
-          } else {
-            return Container(height: 30,);
           }
+          return Container(
+            height: 80,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RefreshProgressIndicator( ),
+              ],
+            ),
+          );
+
         },
       );
     }
@@ -122,33 +133,47 @@ mixin RecordListMixin <T extends StatefulWidget> on State<T>{
 
   @mustCallSuper
   Widget build(BuildContext context) {
-    preBuildProcess(context);
+    if (ctx==null) preBuildProcess(context);
     return null;
   }
 
   bool isFlushing = false;
 
   Widget buildBottomSheet(){
-    final left = MediaQuery.of(ctx).size.width /2 -30;
+    double left = MediaQuery.of(ctx).size.width /2 -50;
+    if (left < 0) left = 0;
     return Container(
-      padding: EdgeInsets.fromLTRB(left,4,left,12),
-
-      //width: MediaQuery.of(context).size.width -10,
-      child: this.isFlushing
-          ? Container(child:  RefreshProgressIndicator())
-          :Text(
-        'Total: ${repositoryService.totalProducts??0}',
-        textAlign: TextAlign.center,
+      //padding: EdgeInsets.fromLTRB(left,4,left,12),
+      margin: EdgeInsets.only(left: left),
+      child: Text(
+        'Total: ${repositoryService.receivedInCache()} / ${repositoryService.totalProducts??0}',
+        textAlign: TextAlign.center, softWrap: false,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
       ),
     ) ;
   }
 
   void resetList() async{
     repositoryService.clearAll();
+    if(mounted) setState(() {});
   }
 
-  void onFlushing(bool isFlushing){
-    if(mounted) setState(() => this.isFlushing = isFlushing);
+  void onFlushing(bool isFlushing) {
+    this.isFlushing = isFlushing;
+    if(!mounted) return;
+
+    try{
+      setState(() {});
+    }
+    catch (e){
+      // setState() or markNeedsBuild() called during build.
+      // widget cannot be marked as needing to build because the framework is already in the process of building widgets.
+      //Just skip this error
+      //print(e);
+    }
+
   }
 
   void onGetItemCompleted(i) {

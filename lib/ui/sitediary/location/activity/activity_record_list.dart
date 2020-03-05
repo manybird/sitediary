@@ -49,22 +49,35 @@ class _SiteDiaryActivityRecordListState extends State<SiteDiaryActivityRecordLis
       children: <Widget>[
         ListTile(
           leading: null,
-          title: Text(record.title??'',overflow: TextOverflow.ellipsis,),
+          title: Text(record.title??''),
           subtitle: Text(record.subTitle??'',overflow: TextOverflow.ellipsis,),
-          trailing: Column(
-            children: <Widget>[
-              ListButton(
-               'Labour', onClick: (){
-                  _showItemDetail(record,1);
-                },
-              ),
-              ListButton(
-                'Plant ', onClick: (){
-                  _showItemDetail(record,1);
-                },
-              ),
-            ],
-            mainAxisAlignment: MainAxisAlignment.end,
+          trailing: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                ListButton(
+                 'Labours', onClick: (){
+                    _showItemDetail(record,1);
+                  },
+                ),
+                ListButton(
+                  'Plants', onClick: (){
+                    _showItemDetail(record,2);
+                  },
+                ),
+                ListButton(
+                    'Photo', onClick: (){
+                  _showItemDetail(record,4);
+                }
+                ),
+                ListButton(
+                  'Materials', onClick: (){
+                    _showItemDetail(record,3);
+                  }
+                ),
+
+              ],
+              mainAxisAlignment: MainAxisAlignment.end,
+            ),
           ) ,
           //Text( record.recordStatusLabel, style: TextStyle(color: Colors.lightBlue)),
           onTap: ()  {
@@ -79,7 +92,6 @@ class _SiteDiaryActivityRecordListState extends State<SiteDiaryActivityRecordLis
 
   _showItemDetail( SDActivityRecord record,int initTabIndex){
 
-    print('_showItemDetail: $record');
     final store = StoreProvider.of<SiteDiaryState>(context);
     //store.state.currentSiteDiaryWorker.locationObject = record;
     final action1 = SiteDiarySetCurrentActivityRecord(record);
@@ -103,6 +115,10 @@ class _SiteDiaryActivityRecordListState extends State<SiteDiaryActivityRecordLis
 
       });
     });
+  }
+
+  @override
+  void onFlushing(bool isFlushing) {
   }
 
 }

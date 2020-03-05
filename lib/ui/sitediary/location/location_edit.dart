@@ -22,7 +22,7 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
 
   ComboItemFactory _createSubContractorCombo(SDLocationRecord r ){
     final f = ComboItemFactory.init();
-
+    worker.subContractorListAdd(r.SubContractor??'');
     f.buildDropDownMenuItems(
       worker.subContractorList , r.SubContractor,
       dummyItemIfEmpty: SDSubContractorList(),
@@ -41,8 +41,6 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
     f.buildDropDownMenuItems(
       worker.areaList, r.Area,
     );
-    //if (r.Area==null && f.initItem!=null) r.Area = '${f.initItem.value}';
-
     f.onSelectionChanged = (v){
       setState(() {
         r.resetArea(v.toString());
@@ -56,11 +54,12 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
     f.onComboEditAdd = (result){
         worker.locListAdd(r.Area, result);
     };
-    worker.locListAdd(r.Area, r.Location);
+    worker.locListAdd(r.Area, r.Location??'');
     f.buildDropDownMenuItems(
       worker.locListByArea(r.Area) , r.Location,
       dummyItemIfEmpty: SDLocList(),
     );
+    /*
     if (r.Location==null && f.selectedItem!=null){
       if (f.selectedItem.value==null){
         r.Location = '';
@@ -68,6 +67,8 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
         r.Location = f.selectedItem.value.toString();
       }
     }
+
+     */
 
     f.onSelectionChanged = (v){
       setState(() {
@@ -81,19 +82,12 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
     f.onComboEditAdd = (result){
       worker.woListAdd(r.Area, result);
     };
-    worker.woListAdd(r.Area, r.WorkOrderNO);
+    worker.woListAdd(r.Area, r.WorkOrderNO??'');
     f.buildDropDownMenuItems(
         worker.woListByArea(r.Area) , r.WorkOrderNO,
         dummyItemIfEmpty: SDWOList.fromEmpty(),
     );
-    if (r.WorkOrderNO==null && f.selectedItem!=null){
-      if (f.selectedItem.value==null){
-        r.WorkOrderNO = '';
-      }else{
-        r.WorkOrderNO = f.selectedItem.value.toString();
-      }
 
-    }
 
     f.onSelectionChanged = (v)=> setState(() {
       return r.WorkOrderNO = '$v';
@@ -108,7 +102,6 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
       r.Street1,
       dummyItemIfEmpty: SDStreetList(),
     );
-    //if (r.Street1==null && f.initItem!=null)     r.Street1 = '${f.initItem.value}';
 
     f.onSelectionChanged = (v)=> setState(() {
       r.resetStreet1(v.toString());
@@ -185,7 +178,7 @@ class _SiteDiaryLocationEditState extends State<SiteDiaryLocationEdit> with Auto
 
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsets.all(16),
+        margin: EdgeInsets.all(8),
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sitediary/datas/sitediary/sitediary_record_object.dart';
-import 'package:sitediary/router.dart';
 
 
 class SiteDiaryPlantRecordList extends StatefulWidget {

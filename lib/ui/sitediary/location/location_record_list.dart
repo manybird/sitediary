@@ -43,13 +43,14 @@ class _SiteDiaryLocationRecordListState extends State<SiteDiaryLocationRecordLis
           title: Text('${record.title}',overflow: TextOverflow.ellipsis,),
           subtitle: Text('${record.subTitle}',overflow: TextOverflow.ellipsis,),
           trailing: Column(
+
             children: <Widget>[
               ListButton(
                 'Activity',
                 onClick: ()=> _showItemDetail(record,1),
               ),
             ],
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ) ,
           //Text( record.recordStatusLabel, style: TextStyle(color: Colors.lightBlue)),
           onTap: ()  {
@@ -64,9 +65,7 @@ class _SiteDiaryLocationRecordListState extends State<SiteDiaryLocationRecordLis
 
   _showItemDetail( SDLocationRecord record,int initTabIndex){
 
-    print('_showLocationMain, $record');
     final store = StoreProvider.of<SiteDiaryState>(context);
-    //store.state.currentSiteDiaryWorker.locationObject = record;
     final action1 = SiteDiarySetCurrentLocationRecord(record);
 
     store.dispatch(action1);
@@ -89,5 +88,7 @@ class _SiteDiaryLocationRecordListState extends State<SiteDiaryLocationRecordLis
       });
     });
   }
+
+
 
 }

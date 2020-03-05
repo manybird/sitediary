@@ -117,6 +117,7 @@ SDActivityRecord _$SDActivityRecordFromJson(Map<String, dynamic> json) {
     ..subTitle = json['subTitle'] as String
     ..LocationID = json['LocationID'] as int
     ..ActivityID = json['ActivityID'] as int
+    ..WorkOrderNo = json['WorkOrderNo'] as String
     ..TypeOfWork = json['TypeOfWork'] as String
     ..SubActivity = json['SubActivity'] as String
     ..Activity = json['Activity'] as String
@@ -142,6 +143,7 @@ Map<String, dynamic> _$SDActivityRecordToJson(SDActivityRecord instance) =>
       'subTitle': instance.subTitle,
       'LocationID': instance.LocationID,
       'ActivityID': instance.ActivityID,
+      'WorkOrderNo': instance.WorkOrderNo,
       'TypeOfWork': instance.TypeOfWork,
       'SubActivity': instance.SubActivity,
       'Activity': instance.Activity,

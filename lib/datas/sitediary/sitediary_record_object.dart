@@ -87,6 +87,10 @@ class SDLocationRecord extends SDRecordBase {
 class SDActivityRecord  extends SDRecordBase{
   int LocationID;
   int ActivityID;
+  String WorkOrderNo;
+
+  String ActivityCode;
+
   String TypeOfWork ;
   String SubActivity ;
   String Activity ;

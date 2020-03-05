@@ -7,7 +7,7 @@ import 'repository.dart';
 
 class RepositoryService extends Repository {
   final int pageSize;
-  Function getDataFutureFunction;
+  Function(int ,int) getDataFutureFunction;
   final Cache cache = MemCache<dynamic>();
 
   bool isFlushing = false;
@@ -20,14 +20,20 @@ class RepositoryService extends Repository {
     this.isFlushing = false;
     if (onFlushingCompleted!=null) onFlushingCompleted(this.isFlushing);
     if (totalProducts==null) totalProducts = 0;
-    //log('onFlushingCompleted: ');
+    log('onFlushingCompleted: ');
   }
 
   Function(bool) onFlushingBegin;
   void raiseFlushingBegin() async{
+    log('onFlushingBegin: ');
+    if (this.isFlushing){
+      log('onFlushingBegin, isFlushing: $isFlushing ');
+      return;
+    }
+
     this.isFlushing = true;
     if (onFlushingBegin!=null) onFlushingBegin(this.isFlushing);
-    //log('onFlushingBegin: ');
+
   }
 
   Function(Object) onErrorCatch;
@@ -38,6 +44,9 @@ class RepositoryService extends Repository {
 
   @override
   Future getItem(int index) {
+
+    if (isFlushing) return Future.value();
+
     if (isEmpty) return Future.value();
 
     //wait for total items
@@ -49,11 +58,14 @@ class RepositoryService extends Repository {
     if (pagesCompleted.contains(pageIndex)) {
       return cache.get(index);
     } else {
-      log('getItem not in cache: $index');
-      if (!pagesInProgress.contains(pageIndex)) {
+      final isInProgressing = pagesInProgress.contains(pageIndex);
+      log('GetItem not in cache: $index, page index:$pageIndex, isInProgressing:$isInProgressing');
+      if (!isInProgressing) {
         pagesInProgress.add(pageIndex);
         final f = getDataFutureFunction(pageIndex, pageSize);
-        log('type checking: f is Future<PagingItemCollection<dynamic>>: $f, ${f is Future<PagingItemCollection<dynamic>>}');
+        if (!( f is Future<PagingItemCollection<dynamic>>)){
+          this.raiseError(Exception('f is Future<PagingItemCollection<dynamic>> result in false'));
+        }
         raiseFlushingBegin();
         if (f is Future<PagingItemCollection<dynamic>>){
           Future<PagingItemCollection> future = f;
@@ -67,6 +79,10 @@ class RepositoryService extends Repository {
       }
       return buildFuture(index);
     }
+  }
+
+  int receivedInCache(){
+    return cache.total();
   }
 
   @override
@@ -107,7 +123,6 @@ class RepositoryService extends Repository {
 
   @override
   void reportEmpty() {
-    // TODO: implement reportEmpty
     log('Empty record reported!');
     isEmpty = true;
   }

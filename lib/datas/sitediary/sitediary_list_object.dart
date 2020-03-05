@@ -49,7 +49,6 @@ class ContractCode extends SDListBase {
 
   @override
   String toString() {
-    // TODO: implement toString
     return '$ContractNo - $Description - isInputStaff:$isInputStaff - isEditLock:$isEditLock - teamList: ${teamList?.length}';
   }
 
@@ -59,6 +58,18 @@ class ContractCode extends SDListBase {
   }
 }
 
+
+class SDTypeOfWorkList extends SDListBase{
+  String ListName;
+  SDTypeOfWorkList({this.ListName=''});
+
+  @override
+  int get hashCode => ListName?.hashCode;
+  @override
+  bool operator==(Object other) => other is SDTypeOfWorkList && other.ListName == ListName;
+  String toString() => this.ListName??'';
+  String get tText=> this.toString();
+}
 
 @JsonSerializable()
 class SDActivityList extends SDListBase {
@@ -70,6 +81,14 @@ class SDActivityList extends SDListBase {
   factory SDActivityList.fromJson(Map<String, dynamic> json) =>
       _$SDActivityListFromJson(json);
   Map<String, dynamic> toJson() => _$SDActivityListToJson(this);
+
+  @override
+  int get hashCode => ListName?.hashCode;
+  @override
+  bool operator==(Object other) => other is SDActivityList && other.ListName == ListName;
+  String toString() => this.ListName??'';
+  String get tText=> this.toString();
+
 }
 @JsonSerializable()
 class SDTeam extends SDListBase {
@@ -90,10 +109,7 @@ class SDTeam extends SDListBase {
   }
 
   @override
-  String toString() {
-    // TODO: implement toString
-    return this.tText??'';
-  }
+  String toString() => this.tText??'';
 
 }
 @JsonSerializable()
